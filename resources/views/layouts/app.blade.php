@@ -18,6 +18,13 @@
             <div class="accent-stripe mx-6"></div>
 
             <nav class="mt-6 flex-1 space-y-1 px-3 text-sm">
+                @if(auth()->user()->isDocente() || auth()->user()->isInvestigador())
+                    <a href="{{ route('dashboard.index') }}" class="nav-link">
+                        <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5 12 4l9 6.5M5 9.5V19a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1V9.5" /></svg>
+                        Mi resumen
+                    </a>
+                @endif
+
                 @can('ver_usuarios')
                     <a href="{{ route('admin.dashboard') }}" @class(['nav-link', 'nav-link-active' => request()->routeIs('admin.dashboard')])>
                         <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5 12 4l9 6.5M5 9.5V19a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1V9.5" /></svg>

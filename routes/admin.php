@@ -37,7 +37,7 @@ use App\Livewire\Admin\Metrics\Index as MetricsIndex;
 | Fase 2: se agregan las rutas de creacion (create) y edicion (edit) para
 | los 8 modulos de contenido, ademas de los listados ya existentes.
 */
-Route::middleware(['auth', 'role:administrador'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', AdminDashboard::class)->name('dashboard');
 
     Route::get('/usuarios', UsersIndex::class)->name('users.index');

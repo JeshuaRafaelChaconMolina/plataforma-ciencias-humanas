@@ -38,14 +38,19 @@ class RoleSeeder extends Seeder
         $admin = Role::findByName('administrador');
         $admin->syncPermissions(Permission::all());
 
-        // Docente e investigador: ver + crear/editar contenido academico (sin usuarios ni configuracion).
-        $contentModules = ['articulos', 'libros', 'revistas', 'sitios_web', 'cursos', 'diplomados', 'talleres'];
-        $docentePermissions = collect($contentModules)
+        // Docente: por ahora sin acceso al portal publico ni al panel administrativo.
+        // La gestion de tareas, actividades y materiales para alumnos correspondera
+        // a Moodle (Fase 6), no a este sistema, para no duplicar esa funcion.
+        Role::findByName('docente')->syncPermissions([]);
+
+        // Investigador: mantiene acceso para publicar su produccion academica real
+        // (articulos, libros, revistas). No administra cursos/diplomados/talleres
+        // ni el portal en general; esa es una decision pendiente de revisar.
+        $investigadorPermissions = collect(['articulos', 'libros', 'revistas'])
             ->flatMap(fn ($m) => ["ver_{$m}", "crear_{$m}", "editar_{$m}"])
             ->all();
 
-        Role::findByName('docente')->syncPermissions($docentePermissions);
-        Role::findByName('investigador')->syncPermissions($docentePermissions);
+        Role::findByName('investigador')->syncPermissions($investigadorPermissions);
 
         // Alumno: solo lectura de su dashboard (sin permisos administrativos).
         Role::findByName('alumno')->syncPermissions([]);

@@ -76,11 +76,7 @@ Route::middleware(['auth'])->prefix('panel')->name('dashboard.')->group(function
         }
 
         if ($user->isDocente()) {
-            $misArticulos = \App\Models\Article::where('created_by', $user->id)->latest()->take(5)->get();
-            $misCursos = \App\Models\Course::where('created_by', $user->id)->latest()->take(5)->get();
-            $misTalleres = \App\Models\Workshop::where('created_by', $user->id)->latest()->take(5)->get();
-
-            return view('livewire.dashboard.docente', compact('misArticulos', 'misCursos', 'misTalleres'));
+            return view('livewire.dashboard.docente');
         }
 
         if ($user->isInvestigador()) {
