@@ -11,6 +11,7 @@ use App\Http\Controllers\Public\WorkshopController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Public\LibraryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +20,18 @@ use Illuminate\Http\Request;
 */
 Route::get('/', HomeController::class)->name('home');
 
-Route::get('/articulos', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/biblioteca-virtual', [LibraryController::class, 'index'])->name('library.index');
+
+Route::view('/privacidad', 'public.privacidad')->name('privacy.index');
+
+Route::redirect('/articulos', '/biblioteca-virtual?tipo=articulos')->name('articles.index');
 Route::get('/articulos/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
-Route::get('/libros', [BookController::class, 'index'])->name('books.index');
+Route::redirect('/libros', '/biblioteca-virtual?tipo=libros')->name('books.index');
 Route::get('/libros/{book:slug}', [BookController::class, 'show'])->name('books.show');
 
-Route::get('/revistas', [JournalController::class, 'index'])->name('journals.index');
+Route::redirect('/revistas', '/biblioteca-virtual?tipo=revistas')->name('journals.index');
 Route::get('/revistas/{journal:slug}', [JournalController::class, 'show'])->name('journals.show');
-
 Route::get('/sitios-web', [WebsiteController::class, 'index'])->name('websites.index');
 Route::get('/sitios-web/{website:slug}', [WebsiteController::class, 'show'])->name('websites.show');
 

@@ -20,17 +20,9 @@
 
             {{-- Menu publico oficial: no se modifica el contenido, solo se le agregan iconos y resaltado --}}
             <nav class="hidden items-center gap-5 text-sm font-medium text-slate-600 lg:flex">
-                <a href="{{ route('articles.index') }}" @class(['public-nav-link', 'public-nav-link-active' => request()->routeIs('articles.*')])>
-                    <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" /><path stroke-linecap="round" d="M9 12h6M9 16h6M9 8h3" /></svg>
-                    Articulos
-                </a>
-                <a href="{{ route('books.index') }}" @class(['public-nav-link', 'public-nav-link-active' => request()->routeIs('books.*')])>
-                    <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6c-1.8-1.2-4-1.8-6.5-1.8V17c2.5 0 4.7.6 6.5 1.8m0-12.8c1.8-1.2 4-1.8 6.5-1.8V17c-2.5 0-4.7.6-6.5 1.8m0-12.8V18.8" /></svg>
-                    Libros
-                </a>
-                <a href="{{ route('journals.index') }}" @class(['public-nav-link', 'public-nav-link-active' => request()->routeIs('journals.*')])>
-                    <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5h12v14H6a2 2 0 0 1-2-2V5Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M16 8h4v9a2 2 0 0 1-2 2h-2" /><path stroke-linecap="round" d="M7 9h6M7 12h6M7 15h4" /></svg>
-                    Revistas
+                <a href="{{ route('library.index') }}" @class(['public-nav-link', 'public-nav-link-active' => request()->routeIs('library.*')])>
+                    <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" /></svg>
+                    Biblioteca Virtual
                 </a>
                 <a href="{{ route('websites.index') }}" @class(['public-nav-link', 'public-nav-link-active' => request()->routeIs('websites.*')])>
                     <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5" /><path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15.5 0 17M12 3.5c-2.5 2.5-2.5 15.5 0 17" /></svg>
@@ -65,9 +57,7 @@
                 Menu ▾
             </button>
             <nav x-show="open" x-cloak class="flex flex-col gap-1 px-4 pb-4 text-sm">
-                <a href="{{ route('articles.index') }}" @class(['py-1', 'font-semibold text-primary-700' => request()->routeIs('articles.*')])>Articulos</a>
-                <a href="{{ route('books.index') }}" @class(['py-1', 'font-semibold text-primary-700' => request()->routeIs('books.*')])>Libros</a>
-                <a href="{{ route('journals.index') }}" @class(['py-1', 'font-semibold text-primary-700' => request()->routeIs('journals.*')])>Revistas</a>
+                <a href="{{ route('library.index') }}" @class(['py-1', 'font-semibold text-primary-700' => request()->routeIs('library.*')])>Biblioteca Virtual</a>
                 <a href="{{ route('websites.index') }}" @class(['py-1', 'font-semibold text-primary-700' => request()->routeIs('websites.*')])>Sitios Web</a>
                 <a href="{{ route('courses.index') }}" @class(['py-1', 'font-semibold text-primary-700' => request()->routeIs('courses.*')])>Cursos</a>
                 <a href="{{ route('diplomas.index') }}" @class(['py-1', 'font-semibold text-primary-700' => request()->routeIs('diplomas.*')])>Diplomados</a>

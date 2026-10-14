@@ -4,8 +4,9 @@
         <div class="accent-stripe my-4"></div>
 
         <form method="GET" class="mb-8 flex flex-wrap gap-3">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Buscar curso..."
-                   class="w-full max-w-sm rounded-lg border-slate-200 text-sm sm:w-auto">
+            <label for="course-search" class="sr-only">Buscar curso</label>
+            <input id="course-search" type="text" name="q" value="{{ request('q') }}" placeholder="Buscar curso..."
+                    class="w-full max-w-sm rounded-lg border-slate-200 text-sm sm:w-auto">
             <button type="submit" class="btn-primary">Buscar</button>
         </form>
 
@@ -19,7 +20,7 @@
                             <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}" class="h-40 w-full object-cover">
                         @endif
                         <div class="flex flex-1 flex-col p-5">
-                            <h3 class="text-lg font-bold text-primary-800">{{ $course->title }}</h3>
+                            <h3 class="text-lg font-bold text-primary-700">{{ $course->title }}</h3>
                             <p class="mt-2 flex-1 text-sm text-slate-600">{{ Str::limit($course->purpose, 100) }}</p>
                             <a href="{{ route('courses.show', $course) }}" class="btn-primary mt-4 w-fit">Ver detalle</a>
                         </div>

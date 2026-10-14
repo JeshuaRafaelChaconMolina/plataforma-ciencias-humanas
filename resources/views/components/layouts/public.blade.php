@@ -20,9 +20,7 @@
 
             {{-- Menu publico oficial: no se modifica --}}
             <nav class="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
-                <a href="{{ route('articles.index') }}" class="hover:text-primary-700">Articulos</a>
-                <a href="{{ route('books.index') }}" class="hover:text-primary-700">Libros</a>
-                <a href="{{ route('journals.index') }}" class="hover:text-primary-700">Revistas</a>
+                <a href="{{ route('library.index') }}" class="hover:text-primary-700">Biblioteca Virtual</a>
                 <a href="{{ route('websites.index') }}" class="hover:text-primary-700">Sitios Web</a>
                 <a href="{{ route('courses.index') }}" class="hover:text-primary-700">Cursos</a>
                 <a href="{{ route('diplomas.index') }}" class="hover:text-primary-700">Diplomados</a>
@@ -44,9 +42,7 @@
                 Menu ▾
             </button>
             <nav x-show="open" x-cloak class="flex flex-col gap-1 px-4 pb-4 text-sm">
-                <a href="{{ route('articles.index') }}" class="py-1">Articulos</a>
-                <a href="{{ route('books.index') }}" class="py-1">Libros</a>
-                <a href="{{ route('journals.index') }}" class="py-1">Revistas</a>
+                <a href="{{ route('library.index') }}" class="py-1">Biblioteca Virtual</a>
                 <a href="{{ route('websites.index') }}" class="py-1">Sitios Web</a>
                 <a href="{{ route('courses.index') }}" class="py-1">Cursos</a>
                 <a href="{{ route('diplomas.index') }}" class="py-1">Diplomados</a>
@@ -59,10 +55,11 @@
         {{ $slot }}
     </main>
 
-    <footer class="mt-20 border-t border-slate-100 bg-white">
-        <div class="mx-auto max-w-7xl px-4 py-10 text-sm text-slate-500 sm:px-6 lg:px-8">
-            <p>&copy; {{ date('Y') }} Ciencias Humanas. Plataforma institucional.</p>
-        </div>
-    </footer>
+        <footer class="mt-20 border-t border-slate-100 bg-white">
+            <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-10 text-sm text-slate-500 sm:flex-row sm:px-6 lg:px-8">
+                <p>&copy; {{ date('Y') }} Ciencias Humanas. Plataforma institucional.</p>
+                <a href="{{ route('privacy.index') }}" class="font-medium text-slate-500 hover:text-primary-700">Aviso de privacidad</a>
+            </div>
+        </footer>
 </body>
 </html>

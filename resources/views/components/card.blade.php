@@ -7,12 +7,12 @@
 
     <div class="flex flex-1 flex-col p-5">
         @if($category)
-            <span class="mb-2 inline-block w-fit rounded-full bg-accent-500/20 px-3 py-1 text-xs font-semibold text-primary-800">
+            <span class="mb-2 inline-block w-fit rounded-full bg-accent-500/20 px-3 py-1 text-xs font-semibold text-primary-700">
                 {{ $category }}
             </span>
         @endif
 
-        <h3 class="text-lg font-bold text-primary-800">{{ $title }}</h3>
+        <h3 class="text-lg font-bold text-primary-700">{{ $title }}</h3>
 
         <div class="mt-2 flex-1 text-sm text-slate-600">
             {{ $slot }}

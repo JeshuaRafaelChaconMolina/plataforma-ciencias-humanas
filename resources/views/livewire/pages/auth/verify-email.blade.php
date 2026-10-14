@@ -14,7 +14,7 @@ new #[Layout('layouts.guest')] class extends Component
     public function sendVerification(): void
     {
         if (Auth::user()->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+            $this->redirectIntended(default: route('dashboard.index', absolute: false), navigate: true);
 
             return;
         }
@@ -36,23 +36,26 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+    <h1 class="mt-5 text-4xl font-bold tracking-tight text-slate-900">Verifica tu correo</h1>
+    <div class="mt-4 h-1 w-10 bg-accent-500"></div>
+
+    <p class="mt-6 text-sm text-slate-500">
+        {{ __('¡Gracias por registrarte! Antes de continuar, ¿podrías verificar tu correo haciendo clic en el enlace que te acabamos de enviar? Si no lo recibiste, con gusto te enviamos otro.') }}
+    </p>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        <div class="mt-6 text-sm font-medium text-emerald-600">
+            {{ __('Se ha enviado un nuevo enlace de verificación al correo que diste al registrarte.') }}
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
+    <div class="mt-10 flex items-center justify-between">
         <x-primary-button wire:click="sendVerification">
-            {{ __('Resend Verification Email') }}
+            {{ __('Reenviar correo de verificación') }}
         </x-primary-button>
 
-        <button wire:click="logout" type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            {{ __('Log Out') }}
+        <button wire:click="logout" type="submit" class="text-sm font-medium text-slate-400 hover:text-primary-700">
+            {{ __('Cerrar sesión') }}
         </button>
     </div>
 </div>

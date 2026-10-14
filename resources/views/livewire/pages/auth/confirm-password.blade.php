@@ -29,34 +29,32 @@ new #[Layout('layouts.guest')] class extends Component
 
         session(['auth.password_confirmed_at' => time()]);
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('dashboard.index', absolute: false), navigate: true);
     }
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
-    </div>
+    <h1 class="mt-5 text-4xl font-bold tracking-tight text-slate-900">Confirma tu contraseña</h1>
+    <div class="mt-4 h-1 w-10 bg-accent-500"></div>
 
-    <form wire:submit="confirmPassword">
-        <!-- Password -->
+    <p class="mt-6 text-sm text-slate-500">
+        {{ __('Esta es un área segura de la aplicación. Por favor confirma tu contraseña antes de continuar.') }}
+    </p>
+
+    <form wire:submit="confirmPassword" class="mt-10 space-y-8">
         <div>
-            <x-input-label for="password" :value="__('Password')" />
-
+            <x-input-label for="password" :value="__('Contraseña')" />
             <x-text-input wire:model="password"
-                          id="password"
-                          class="block mt-1 w-full"
-                          type="password"
-                          name="password"
-                          required autocomplete="current-password" />
-
+                        id="password"
+                        class="mt-2"
+                        type="password"
+                        name="password"
+                        required autocomplete="current-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <div class="flex justify-end mt-4">
-            <x-primary-button>
-                {{ __('Confirm') }}
-            </x-primary-button>
-        </div>
+        <x-primary-button class="mt-2">
+            {{ __('Confirmar') }}
+        </x-primary-button>
     </form>
 </div>
