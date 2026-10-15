@@ -29,7 +29,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($article ? 'editar_articulos' : 'crear_articulos'), 403);
 
         if ($article) {
-            $this->article = Article::findOrFail($article);
+            $articleId = $article instanceof Article ? $article->getKey() : $article;
+            $this->article = Article::findOrFail($articleId);
             $this->title = $this->article->title;
             $this->category_id = $this->article->category_id;
             $this->description = (string) $this->article->description;
@@ -67,13 +68,13 @@ class Form extends Component
             'year' => $this->year,
             'status' => $this->status,
             'published_at' => $this->status === 'published' ? now() : null,
-            'created_by' => auth()->id(),
+            
         ];
 
         if ($this->article) {
             $this->article->update($data);
         } else {
-            $this->article = Article::create($data);
+            $this->article = Article::create($data + ['created_by' => auth()->id()]);
         }
 
         if ($this->attachment) {

@@ -30,7 +30,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($diploma ? 'editar_diplomados' : 'crear_diplomados'), 403);
 
         if ($diploma) {
-            $this->diploma = Diploma::findOrFail($diploma);
+            $diplomaId = $diploma instanceof Diploma ? $diploma->getKey() : $diploma;
+            $this->diploma = Diploma::findOrFail($diplomaId);
             $this->title = $this->diploma->title;
             $this->category_id = $this->diploma->category_id;
             $this->description = (string) $this->diploma->description;
@@ -74,7 +75,7 @@ class Form extends Component
             'status' => $this->status,
             'start_date' => $this->start_date ?: null,
             'end_date' => $this->end_date ?: null,
-            'created_by' => auth()->id(),
+            
         ];
 
         if ($this->image) {
@@ -84,7 +85,7 @@ class Form extends Component
         if ($this->diploma) {
             $this->diploma->update($data);
         } else {
-            Diploma::create($data);
+            Diploma::create($data + ['created_by' => auth()->id()]);
         }
 
         session()->flash('status', 'Diplomado guardado correctamente.');

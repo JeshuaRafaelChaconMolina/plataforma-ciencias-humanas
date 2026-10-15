@@ -56,7 +56,7 @@ require __DIR__.'/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| Cierre de sesion (Breeze con Volt no crea esta ruta automaticamente)
+| Cierre de sesión (Breeze con Volt no crea esta ruta automaticamente)
 |--------------------------------------------------------------------------
 */
 Route::post('/logout', function (Request $request) {
@@ -81,14 +81,6 @@ Route::middleware(['auth'])->prefix('panel')->name('dashboard.')->group(function
 
         if ($user->isDocente()) {
             return view('livewire.dashboard.docente');
-        }
-
-        if ($user->isInvestigador()) {
-            $misArticulos = \App\Models\Article::where('created_by', $user->id)->latest()->take(5)->get();
-            $misLibros = \App\Models\Book::where('created_by', $user->id)->latest()->take(5)->get();
-            $misRevistas = \App\Models\Journal::where('created_by', $user->id)->latest()->take(5)->get();
-
-            return view('livewire.dashboard.investigador', compact('misArticulos', 'misLibros', 'misRevistas'));
         }
 
         // Alumno (rol por defecto): catalogo de oferta educativa publicada

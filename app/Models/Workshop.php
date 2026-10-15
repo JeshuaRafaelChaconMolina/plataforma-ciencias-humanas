@@ -10,7 +10,7 @@ class Workshop extends Model
 {
     use HasFactory, HasEducationalOffering;
 
-    // Estructura independiente: sin modulos ni Moodle, tal como se acordo.
+    // Estructura independiente: sin módulos ni Moodle, tal como se acordo.
     protected $fillable = [
         'category_id', 'created_by', 'title', 'slug', 'description', 'purpose',
         'image', 'duration', 'modality', 'status', 'start_date', 'end_date',

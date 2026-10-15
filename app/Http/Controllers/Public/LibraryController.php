@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class LibraryController extends Controller
 {
     protected array $tipos = [
-        'articulos' => ['model' => Article::class, 'categoryType' => 'article', 'label' => 'Articulos', 'route' => 'articles.show'],
+        'articulos' => ['model' => Article::class, 'categoryType' => 'article', 'label' => 'Artículos', 'route' => 'articles.show'],
         'libros'    => ['model' => Book::class,    'categoryType' => 'book',    'label' => 'Libros',    'route' => 'books.show'],
         'revistas'  => ['model' => Journal::class, 'categoryType' => 'journal', 'label' => 'Revistas',  'route' => 'journals.show'],
     ];

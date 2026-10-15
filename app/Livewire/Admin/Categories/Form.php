@@ -18,7 +18,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($category ? 'editar_categorias' : 'crear_categorias'), 403);
 
         if ($category) {
-            $this->category = Category::findOrFail($category);
+            $categoryId = $category instanceof Category ? $category->getKey() : $category;
+            $this->category = Category::findOrFail($categoryId);
             $this->name = $this->category->name;
             $this->type = $this->category->type;
             $this->description = (string) $this->category->description;
@@ -50,7 +51,7 @@ class Form extends Component
             Category::create($data);
         }
 
-        session()->flash('status', 'Categoria guardada correctamente.');
+        session()->flash('status', 'Categoría guardada correctamente.');
 
         return redirect()->route('admin.categories.index');
     }

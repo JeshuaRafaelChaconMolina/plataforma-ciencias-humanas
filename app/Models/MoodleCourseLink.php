@@ -21,7 +21,7 @@ class MoodleCourseLink extends Model
     }
 
     /**
-     * URL final a la que apunta el boton "INGRESAR AL CURSO".
+     * URL final a la que apunta el botón "INGRESAR AL CURSO".
      * Si en el futuro se define SSO, este metodo es el punto de extension.
      */
     public function getAccessUrlAttribute(): ?string

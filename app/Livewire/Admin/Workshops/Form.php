@@ -30,7 +30,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($workshop ? 'editar_talleres' : 'crear_talleres'), 403);
 
         if ($workshop) {
-            $this->workshop = Workshop::findOrFail($workshop);
+            $workshopId = $workshop instanceof Workshop ? $workshop->getKey() : $workshop;
+            $this->workshop = Workshop::findOrFail($workshopId);
             $this->title = $this->workshop->title;
             $this->category_id = $this->workshop->category_id;
             $this->description = (string) $this->workshop->description;
@@ -74,7 +75,6 @@ class Form extends Component
             'status' => $this->status,
             'start_date' => $this->start_date ?: null,
             'end_date' => $this->end_date ?: null,
-            'created_by' => auth()->id(),
         ];
 
         if ($this->image) {
@@ -84,7 +84,7 @@ class Form extends Component
         if ($this->workshop) {
             $this->workshop->update($data);
         } else {
-            Workshop::create($data);
+            Workshop::create($data + ['created_by' => auth()->id()]);
         }
 
         session()->flash('status', 'Taller guardado correctamente.');

@@ -27,10 +27,10 @@ class Form extends Component
     public $image;
     public ?string $existingImage = null;
 
-    // Modulos del curso: cada uno es ['title' => '', 'description' => '']
+    // Módulos del curso: cada uno es ['title' => '', 'description' => '']
     public array $modules = [];
 
-    // Vinculo con Moodle
+    // Vínculo con Moodle
     public string $moodle_url = '';
     public bool $moodle_is_active = true;
 
@@ -39,7 +39,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($course ? 'editar_cursos' : 'crear_cursos'), 403);
 
         if ($course) {
-            $this->course = Course::with(['modules', 'moodleLink'])->findOrFail($course);
+            $courseId = $course instanceof Course ? $course->getKey() : $course;
+            $this->course = Course::with(['modules', 'moodleLink'])->findOrFail($courseId);
             $this->title = $this->course->title;
             $this->category_id = $this->course->category_id;
             $this->description = (string) $this->course->description;
@@ -107,7 +108,6 @@ class Form extends Component
             'status' => $this->status,
             'start_date' => $this->start_date ?: null,
             'end_date' => $this->end_date ?: null,
-            'created_by' => auth()->id(),
         ];
 
         if ($this->image) {
@@ -117,10 +117,10 @@ class Form extends Component
         if ($this->course) {
             $this->course->update($data);
         } else {
-            $this->course = Course::create($data);
+                $this->course = Course::create($data + ['created_by' => auth()->id()]);
         }
 
-        // Reemplaza los modulos existentes por los capturados en el formulario
+        // Reemplaza los módulos existentes por los capturados en el formulario
         $this->course->modules()->delete();
         foreach ($this->modules as $index => $module) {
             if (trim($module['title'] ?? '') === '') {
@@ -134,12 +134,15 @@ class Form extends Component
             ]);
         }
 
-        // Vinculo con Moodle (se guarda solo si se capturo una URL)
+        // Vínculo con Moodle (se guarda solo si se capturo una URL)
         if (trim($this->moodle_url) !== '') {
             MoodleCourseLink::updateOrCreate(
                 ['course_id' => $this->course->id],
                 ['moodle_url' => $this->moodle_url, 'is_active' => $this->moodle_is_active]
             );
+        } 
+        else {
+            MoodleCourseLink::where('course_id', $this->course->id)->delete();
         }
 
         session()->flash('status', 'Curso guardado correctamente.');

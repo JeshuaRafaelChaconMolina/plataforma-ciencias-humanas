@@ -15,20 +15,20 @@
         <table class="w-full text-left text-sm">
             <thead class="bg-slate-50 text-xs uppercase text-slate-500">
                 <tr>
-                    <th class="px-4 py-3">Titulo</th>
-                    <th class="px-4 py-3">Categoria</th>
+                    <th class="px-4 py-3">Título</th>
+                    <th class="px-4 py-3">Categoría</th>
                     <th class="px-4 py-3">Estado</th>
                     <th class="px-4 py-3 text-right">Acciones</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
                 @forelse($items as $item)
-                    <tr>
+                    <tr wire:key="item-{{ $item->id }}">
                         <td class="px-4 py-3 font-medium text-slate-700">{{ $item->title }}</td>
-                        <td class="px-4 py-3"><x-badge color="neutral">{{ $item->category?->name ?? 'Sin categoria' }}</x-badge></td>
+                        <td class="px-4 py-3"><x-badge color="neutral">{{ $item->category?->name ?? 'Sin categoría' }}</x-badge></td>
                         <td class="px-4 py-3">
                             <x-badge :color="$item->status === 'published' ? 'primary' : 'neutral'">
-                                {{ $item->status }}
+                                {{ ['draft' => 'Borrador', 'published' => 'Publicado', 'archived' => 'Archivado'][$item->status] ?? $item->status }}
                             </x-badge>
                         </td>
                         <td class="px-4 py-3 text-right">
@@ -41,7 +41,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4" class="px-4 py-6 text-center text-slate-400">Sin registros todavia.</td></tr>
+                    <tr><td colspan="4" class="px-4 py-6 text-center text-slate-400">Sin registros todavía.</td></tr>
                 @endforelse
             </tbody>
         </table>

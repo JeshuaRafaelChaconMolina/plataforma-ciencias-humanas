@@ -12,7 +12,7 @@
             <label class="mb-1 block text-sm font-medium text-slate-700">Tipo</label>
             <select wire:model="type" class="w-full rounded-lg border-slate-200 text-sm">
                 <option value="general">General (aplica a todos los contenidos)</option>
-                <option value="article">Articulos</option>
+                <option value="article">Artículos</option>
                 <option value="book">Libros</option>
                 <option value="journal">Revistas</option>
                 <option value="website">Sitios web</option>
@@ -23,7 +23,7 @@
         </div>
 
         <div>
-            <label class="mb-1 block text-sm font-medium text-slate-700">Descripcion</label>
+            <label class="mb-1 block text-sm font-medium text-slate-700">Descripción</label>
             <textarea wire:model="description" rows="3" class="w-full rounded-lg border-slate-200 text-sm"></textarea>
         </div>
 

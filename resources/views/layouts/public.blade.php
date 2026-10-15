@@ -18,7 +18,7 @@
                 <span class="accent-stripe"></span>
             </a>
 
-            {{-- Menu publico oficial: no se modifica el contenido, solo se le agregan iconos y resaltado --}}
+            {{-- Menu público oficial: no se modifica el contenido, solo se le agregan iconos y resaltado --}}
             <nav class="hidden items-center gap-5 text-sm font-medium text-slate-600 lg:flex">
                 <a href="{{ route('library.index') }}" @class(['public-nav-link', 'public-nav-link-active' => request()->routeIs('library.*')])>
                     <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" /></svg>
@@ -46,7 +46,7 @@
                 @auth
                     <a href="{{ route('dashboard.index') }}" class="btn-primary">Mi panel</a>
                 @else
-                    <a href="{{ route('login') }}" class="text-sm font-semibold text-primary-700 hover:underline">Iniciar sesion</a>
+                    <a href="{{ route('login') }}" class="text-sm font-semibold text-primary-700 hover:underline">Iniciar sesión</a>
                 @endauth
             </div>
         </div>

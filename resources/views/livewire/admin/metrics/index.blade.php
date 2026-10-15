@@ -1,5 +1,5 @@
 <div>
-    <p class="mb-6 text-sm text-slate-500">Metricas basicas de contenido y usuarios de la plataforma.</p>
+    <p class="mb-6 text-sm text-slate-500">Métricas basicas de contenido y usuarios de la plataforma.</p>
 
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
         @foreach($data as $label => $value)
@@ -11,6 +11,6 @@
     </div>
 
     <p class="mt-8 text-xs text-slate-400">
-        Metricas de visitas y trafico del portal publico se incorporaran cuando se defina la herramienta de analitica (pendiente de aprobacion institucional).
+        Métricas de visitas y trafico del portal público se incorporaran cuando se defina la herramienta de analitica (pendiente de aprobacion institucional).
     </p>
 </div>

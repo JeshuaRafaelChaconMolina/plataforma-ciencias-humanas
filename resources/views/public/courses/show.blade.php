@@ -8,13 +8,13 @@
 
         <div class="mt-6 space-y-4 text-slate-700">
             <div>
-                <h2 class="font-semibold text-primary-700">Proposito</h2>
+                <h2 class="font-semibold text-primary-700">Propósito</h2>
                 <p>{{ $course->purpose }}</p>
             </div>
 
             @if($course->modules->isNotEmpty())
                 <div>
-                    <h2 class="font-semibold text-primary-700">Modulos</h2>
+                    <h2 class="font-semibold text-primary-700">Módulos</h2>
                     <ul class="mt-2 list-inside list-disc space-y-1">
                         @foreach($course->modules as $module)
                             <li>{{ $module->title }}</li>

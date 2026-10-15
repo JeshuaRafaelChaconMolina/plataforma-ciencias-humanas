@@ -18,7 +18,7 @@
                 <span class="accent-stripe"></span>
             </a>
 
-            {{-- Menu publico oficial: no se modifica --}}
+            {{-- Menu público oficial: no se modifica --}}
             <nav class="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
                 <a href="{{ route('library.index') }}" class="hover:text-primary-700">Biblioteca Virtual</a>
                 <a href="{{ route('websites.index') }}" class="hover:text-primary-700">Sitios Web</a>
@@ -31,7 +31,7 @@
                 @auth
                     <a href="{{ route('dashboard.index') }}" class="btn-primary">Mi panel</a>
                 @else
-                    <a href="{{ route('login') }}" class="text-sm font-semibold text-primary-700 hover:underline">Iniciar sesion</a>
+                    <a href="{{ route('login') }}" class="text-sm font-semibold text-primary-700 hover:underline">Iniciar sesión</a>
                 @endauth
             </div>
         </div>

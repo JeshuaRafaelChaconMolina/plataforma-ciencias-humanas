@@ -23,7 +23,7 @@ class Index extends Component
 
         Category::findOrFail($id)->delete();
 
-        session()->flash('status', 'Categoria eliminada correctamente.');
+        session()->flash('status', 'Categoría eliminada correctamente.');
     }
 
     public function render()
@@ -34,6 +34,6 @@ class Index extends Component
             ->paginate(10);
 
         return view('livewire.admin.categories.index', compact('categories'))
-            ->layout('layouts.app', ['title' => 'Categorias']);
+            ->layout('layouts.app', ['title' => 'Categorías']);
     }
 }

@@ -34,7 +34,7 @@
         @apply border-accent-500 bg-primary-700 font-semibold text-white;
     }
 
-    /* Enlaces del menu publico: subrayado de acento en la seccion activa */
+    /* Enlaces del menu público: subrayado de acento en la seccion activa */
     .public-nav-link {
         @apply flex items-center gap-1.5 border-b-2 border-transparent pb-1 transition hover:border-accent-500 hover:text-primary-700;
     }

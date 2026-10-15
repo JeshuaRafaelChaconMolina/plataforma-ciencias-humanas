@@ -17,7 +17,7 @@
                 <tr>
                     <th class="px-4 py-3">Nombre</th>
                     <th class="px-4 py-3">Tipo</th>
-                    <th class="px-4 py-3">Descripcion</th>
+                    <th class="px-4 py-3">Descripción</th>
                     <th class="px-4 py-3 text-right">Acciones</th>
                 </tr>
             </thead>

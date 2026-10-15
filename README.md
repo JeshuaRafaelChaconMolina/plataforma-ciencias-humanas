@@ -49,7 +49,7 @@ npm run build
 # 8. Corre las migraciones y los seeders (roles, admin, categorias)
 php artisan migrate --seed
 
-# 9. Enlaza el storage publico (para imagenes/archivos subidos)
+# 9. Enlaza el storage público (para imagenes/archivos subidos)
 php artisan storage:link
 
 # 10. Levanta el servidor de desarrollo

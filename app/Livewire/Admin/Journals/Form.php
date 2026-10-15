@@ -29,7 +29,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($journal ? 'editar_revistas' : 'crear_revistas'), 403);
 
         if ($journal) {
-            $this->journal = Journal::findOrFail($journal);
+            $journalId = $journal instanceof Journal ? $journal->getKey() : $journal;
+            $this->journal = Journal::findOrFail($journalId);
             $this->title = $this->journal->title;
             $this->category_id = $this->journal->category_id;
             $this->description = (string) $this->journal->description;
@@ -67,13 +68,13 @@ class Form extends Component
             'year' => $this->year,
             'status' => $this->status,
             'published_at' => $this->status === 'published' ? now() : null,
-            'created_by' => auth()->id(),
+            
         ];
 
         if ($this->journal) {
             $this->journal->update($data);
         } else {
-            $this->journal = Journal::create($data);
+            $this->journal = Journal::create($data + ['created_by' => auth()->id()]);
         }
 
         if ($this->attachment) {

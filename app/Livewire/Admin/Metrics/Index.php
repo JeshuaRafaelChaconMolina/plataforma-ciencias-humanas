@@ -23,7 +23,7 @@ class Index extends Component
     {
         $data = [
             'Usuarios' => User::count(),
-            'Articulos' => Article::count(),
+            'Artículos' => Article::count(),
             'Libros' => Book::count(),
             'Revistas' => Journal::count(),
             'Sitios Web' => Website::count(),
@@ -33,6 +33,6 @@ class Index extends Component
         ];
 
         return view('livewire.admin.metrics.index', compact('data'))
-            ->layout('layouts.app', ['title' => 'Metricas']);
+            ->layout('layouts.app', ['title' => 'Métricas']);
     }
 }

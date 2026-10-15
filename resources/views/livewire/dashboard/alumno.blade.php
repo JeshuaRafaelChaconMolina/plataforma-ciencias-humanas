@@ -10,7 +10,7 @@
     <h3 class="section-title text-xl">Cursos disponibles</h3>
     <div class="accent-stripe my-3"></div>
     @if($cursos->isEmpty())
-        <p class="mb-8 text-sm text-slate-500">Aun no hay cursos publicados.</p>
+        <p class="mb-8 text-sm text-slate-500">Aún no hay cursos publicados.</p>
     @else
         <div class="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach($cursos as $curso)
@@ -24,7 +24,7 @@
     <h3 class="section-title text-xl">Diplomados disponibles</h3>
     <div class="accent-stripe my-3"></div>
     @if($diplomados->isEmpty())
-        <p class="mb-8 text-sm text-slate-500">Aun no hay diplomados publicados.</p>
+        <p class="mb-8 text-sm text-slate-500">Aún no hay diplomados publicados.</p>
     @else
         <div class="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach($diplomados as $diplomado)
@@ -38,7 +38,7 @@
     <h3 class="section-title text-xl">Talleres disponibles</h3>
     <div class="accent-stripe my-3"></div>
     @if($talleres->isEmpty())
-        <p class="text-sm text-slate-500">Aun no hay talleres publicados.</p>
+        <p class="text-sm text-slate-500">Aún no hay talleres publicados.</p>
     @else
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach($talleres as $taller)

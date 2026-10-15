@@ -4,7 +4,7 @@
         <div class="accent-stripe my-4"></div>
 
         @if($workshops->isEmpty())
-            <p class="text-slate-500">Aun no hay talleres publicados.</p>
+            <p class="text-slate-500">Aún no hay talleres publicados.</p>
         @else
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach($workshops as $workshop)

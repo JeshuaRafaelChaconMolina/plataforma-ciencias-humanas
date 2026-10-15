@@ -21,7 +21,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($website ? 'editar_sitios_web' : 'crear_sitios_web'), 403);
 
         if ($website) {
-            $this->website = Website::findOrFail($website);
+            $websiteId = $website instanceof Website ? $website->getKey() : $website;
+            $this->website = Website::findOrFail($websiteId);
             $this->title = $this->website->title;
             $this->category_id = $this->website->category_id;
             $this->description = (string) $this->website->description;
@@ -52,13 +53,12 @@ class Form extends Component
             'url' => $this->url,
             'status' => $this->status,
             'published_at' => $this->status === 'published' ? now() : null,
-            'created_by' => auth()->id(),
         ];
 
         if ($this->website) {
             $this->website->update($data);
         } else {
-            Website::create($data);
+            Website::create($data + ['created_by' => auth()->id()]);
         }
 
         session()->flash('status', 'Sitio web guardado correctamente.');

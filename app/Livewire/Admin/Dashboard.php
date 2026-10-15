@@ -25,7 +25,7 @@ class Dashboard extends Component
 
     public function render()
     {
-        // Metricas basicas para el panel de inicio (seccion K del plan de Fase 1)
+        // Métricas basicas para el panel de inicio (seccion K del plan de Fase 1)
         $metrics = [
             'usuarios' => User::count(),
             'articulos' => Article::count(),

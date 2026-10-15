@@ -30,7 +30,8 @@ class Form extends Component
         abort_unless(auth()->user()->can($book ? 'editar_libros' : 'crear_libros'), 403);
 
         if ($book) {
-            $this->book = Book::findOrFail($book);
+            $bookId = $book instanceof Book ? $book->getKey() : $book;
+            $this->book = Book::findOrFail($bookId);
             $this->title = $this->book->title;
             $this->category_id = $this->book->category_id;
             $this->description = (string) $this->book->description;
@@ -71,13 +72,13 @@ class Form extends Component
             'year' => $this->year,
             'status' => $this->status,
             'published_at' => $this->status === 'published' ? now() : null,
-            'created_by' => auth()->id(),
+            
         ];
 
         if ($this->book) {
             $this->book->update($data);
         } else {
-            $this->book = Book::create($data);
+            $this->book = Book::create($data + ['created_by' => auth()->id()]);
         }
 
         if ($this->attachment) {

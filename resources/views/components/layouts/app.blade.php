@@ -18,7 +18,7 @@
             <div class="accent-stripe mx-6"></div>
 
             <nav class="mt-6 flex-1 space-y-1 px-3 text-sm">
-                @if(auth()->user()->isDocente() || auth()->user()->isInvestigador())
+                @if(auth()->user()->isDocente())
                     <a href="{{ route('dashboard.index') }}" class="nav-link">
                         <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5 12 4l9 6.5M5 9.5V19a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1V9.5" /></svg>
                         Mi resumen
@@ -31,7 +31,7 @@
                         Inicio
                     </a>
 
-                    <p class="mt-4 px-3 text-xs font-semibold uppercase tracking-wide text-primary-300">Gestion</p>
+                    <p class="mt-4 px-3 text-xs font-semibold uppercase tracking-wide text-primary-300">Gestión</p>
 
                     <a href="{{ route('admin.users.index') }}" @class(['nav-link', 'nav-link-active' => request()->routeIs('admin.users.*')])>
                         <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 20a5.5 5.5 0 0 1 11 0" /><circle cx="17" cy="9" r="2.3" /><path stroke-linecap="round" stroke-linejoin="round" d="M14.8 20a4.3 4.3 0 0 1 6.7-3.6" /></svg>
@@ -39,7 +39,7 @@
                     </a>
                     <a href="{{ route('admin.categories.index') }}" @class(['nav-link', 'nav-link-active' => request()->routeIs('admin.categories.*')])>
                         <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h7l9 9-7 7-9-9V4Z" /><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor" stroke="none" /></svg>
-                        Categorias
+                        Categorías
                     </a>
                 @endcan
 
@@ -49,7 +49,7 @@
                     @can('ver_articulos')
                         <a href="{{ route('admin.articles.index') }}" @class(['nav-link', 'nav-link-active' => request()->routeIs('admin.articles.*')])>
                             <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" /><path stroke-linecap="round" d="M9 12h6M9 16h6M9 8h3" /></svg>
-                            Articulos
+                            Artículos
                         </a>
                     @endcan
                     @can('ver_libros')
@@ -99,7 +99,7 @@
                     <p class="mt-4 px-3 text-xs font-semibold uppercase tracking-wide text-primary-300">Sistema</p>
                     <a href="{{ route('admin.metrics.index') }}" @class(['nav-link', 'nav-link-active' => request()->routeIs('admin.metrics.*')])>
                         <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 20V10M10 20V4M16 20v-7M4 20h16" /></svg>
-                        Metricas
+                        Métricas
                     </a>
                 @endcan
             </nav>
@@ -114,10 +114,10 @@
             <header class="flex items-center justify-between border-b border-slate-100 bg-white px-6 py-4 shadow-sm">
                 <h1 class="text-lg font-semibold text-primary-800">{{ $title ?? 'Panel' }}</h1>
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('home') }}" class="text-sm text-slate-500 hover:text-primary-700">Ver portal publico</a>
+                    <a href="{{ route('home') }}" class="text-sm text-slate-500 hover:text-primary-700">Ver portal público</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="text-sm font-semibold text-red-600 hover:underline">Cerrar sesion</button>
+                        <button type="submit" class="text-sm font-semibold text-red-600 hover:underline">Cerrar sesión</button>
                     </form>
                 </div>
             </header>

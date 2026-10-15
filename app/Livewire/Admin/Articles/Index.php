@@ -35,6 +35,6 @@ class Index extends Component
             ->paginate(10);
 
         return view("livewire.admin.articles.index", compact("items"))
-            ->layout("layouts.app", ["title" => "Articulos"]);
+            ->layout("layouts.app", ["title" => "Artículos"]);
     }
 }

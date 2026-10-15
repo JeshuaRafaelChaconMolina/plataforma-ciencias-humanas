@@ -1,7 +1,7 @@
 {
     "name": "unach/plataforma-ciencias-humanas",
     "type": "project",
-    "description": "Plataforma institucional Ciencias Humanas - Portal publico + area privada + integracion Moodle (referencia)",
+    "description": "Plataforma institucional Ciencias Humanas - Portal público + area privada + integracion Moodle (referencia)",
     "keywords": ["laravel", "livewire", "moodle", "portal"],
     "license": "MIT",
     "require": {

@@ -23,7 +23,7 @@
         <div class="accent-stripe my-4"></div>
 
         @if($courses->isEmpty())
-            <p class="text-slate-500">Aun no hay cursos publicados.</p>
+            <p class="text-slate-500">Aún no hay cursos publicados.</p>
         @else
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach($courses as $course)

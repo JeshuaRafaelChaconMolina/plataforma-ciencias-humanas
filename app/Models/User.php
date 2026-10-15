@@ -44,11 +44,6 @@ class User extends Authenticatable
         return $this->hasRole('docente');
     }
 
-    public function isInvestigador(): bool
-    {
-        return $this->hasRole('investigador');
-    }
-
     public function isAlumno(): bool
     {
         return $this->hasRole('alumno');

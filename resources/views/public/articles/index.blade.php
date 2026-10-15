@@ -1,6 +1,6 @@
-<x-layouts.public :title="'Articulos'">
+<x-layouts.public :title="'Artículos'">
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <h1 class="section-title">Articulos</h1>
+        <h1 class="section-title">Artículos</h1>
         <div class="accent-stripe my-4"></div>
 
         <form method="GET" class="mb-8 flex flex-wrap gap-3">
