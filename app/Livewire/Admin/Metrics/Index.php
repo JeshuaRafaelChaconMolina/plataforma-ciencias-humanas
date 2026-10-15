@@ -10,6 +10,7 @@ use App\Models\Journal;
 use App\Models\User;
 use App\Models\Website;
 use App\Models\Workshop;
+use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
 
 class Index extends Component
@@ -21,18 +22,43 @@ class Index extends Component
 
     public function render()
     {
-        $data = [
-            'Usuarios' => User::count(),
-            'Artículos' => Article::count(),
-            'Libros' => Book::count(),
-            'Revistas' => Journal::count(),
-            'Sitios Web' => Website::count(),
-            'Cursos' => Course::count(),
-            'Diplomados' => Diploma::count(),
-            'Talleres' => Workshop::count(),
+        $modules = [
+            'Artículos' => Article::class,
+            'Libros' => Book::class,
+            'Revistas' => Journal::class,
+            'Sitios web' => Website::class,
+            'Cursos' => Course::class,
+            'Diplomados' => Diploma::class,
+            'Talleres' => Workshop::class,
         ];
 
-        return view('livewire.admin.metrics.index', compact('data'))
+        $rows = [];
+        foreach ($modules as $label => $model) {
+            $hasStatus = Schema::hasColumn((new $model)->getTable(), 'status');
+
+            $byStatus = $hasStatus
+                ? $model::query()->selectRaw('status, count(*) as total')->groupBy('status')->pluck('total', 'status')
+                : collect();
+
+            $rows[] = [
+                'label' => $label,
+                'total' => $hasStatus ? (int) $byStatus->sum() : $model::count(),
+                'published' => $hasStatus ? (int) ($byStatus['published'] ?? 0) : null,
+                'draft' => $hasStatus ? (int) ($byStatus['draft'] ?? 0) : null,
+                'archived' => $hasStatus ? (int) ($byStatus['archived'] ?? 0) : null,
+            ];
+        }
+
+        $rows = collect($rows);
+
+        $summary = [
+            'Usuarios' => User::count(),
+            'Contenido total' => $rows->sum('total'),
+            'Publicados' => $rows->sum('published'),
+            'Borradores' => $rows->sum('draft'),
+        ];
+
+        return view('livewire.admin.metrics.index', compact('rows', 'summary'))
             ->layout('layouts.app', ['title' => 'Métricas']);
     }
 }
