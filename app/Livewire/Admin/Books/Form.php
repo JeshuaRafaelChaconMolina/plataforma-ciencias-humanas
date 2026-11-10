@@ -55,12 +55,13 @@ class Form extends Component
             'isbn' => 'nullable|string|max:50',
             'year' => 'nullable|integer|min:1900|max:2100',
             'status' => 'required|in:draft,published',
-            'attachment' => 'nullable|file|max:10240',
+            'attachment' => 'nullable|file|mimes:pdf,epub,doc,docx|max:10240',
         ];
     }
 
     public function save()
     {
+        abort_unless(auth()->user()->can($this->book ? 'editar_libros' : 'crear_libros'), 403);
         $this->validate();
 
         $data = [
@@ -71,7 +72,7 @@ class Form extends Component
             'isbn' => $this->isbn,
             'year' => $this->year,
             'status' => $this->status,
-            'published_at' => $this->status === 'published' ? now() : null,
+            'published_at' => $this->status === 'published' ? ($this->book?->published_at ?? now()) : null,
             
         ];
 

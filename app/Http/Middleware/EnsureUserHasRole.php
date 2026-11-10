@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Protege rutas por rol. Uso en routes: ->middleware('role:administrador')
- * o con varios roles separados por coma: ->middleware('role:docente,investigador')
+ * o con varios roles separados por coma: ->middleware('role:docente,alumno')
  */
 class EnsureUserHasRole
 {

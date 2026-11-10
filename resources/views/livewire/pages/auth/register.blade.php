@@ -4,6 +4,8 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -20,15 +22,28 @@ new #[Layout('layouts.guest')] class extends Component
      */
     public function register(): void
     {
+        $key = 'register:'.request()->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 10)) {
+            throw ValidationException::withMessages([
+            'email' => 'Demasiados registros desde esta conexión. Intenta más tarde.',
+            ]);
+        }
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        RateLimiter::hit($key, 3600);
+
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered($user = User::create($validated)));
+        $user = User::create($validated);
+        $user->assignRole('alumno');
+
+        event(new Registered($user));
 
         Auth::login($user);
 

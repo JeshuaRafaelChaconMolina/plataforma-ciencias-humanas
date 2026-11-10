@@ -26,6 +26,16 @@
         </div>
 
         <form wire:submit="save" class="mt-6 space-y-5">
+            @if ($errors->any())
+    <div class="mb-4 rounded-md border border-red-300 bg-red-50 p-4 text-sm text-red-700">
+        <p class="font-semibold">No se pudo guardar. Revisa lo siguiente:</p>
+        <ul class="mt-2 list-disc pl-5">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
             <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Título de la Obra</label>
                 <input type="text"
