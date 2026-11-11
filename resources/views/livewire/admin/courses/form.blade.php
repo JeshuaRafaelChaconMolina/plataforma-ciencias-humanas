@@ -26,6 +26,31 @@
         </div>
 
         <form wire:submit="save" class="mt-6 space-y-6">
+            {{-- Alerta visible: errores de validación y de Moodle --}}
+            @if($errors->any())
+                <div class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 shadow-sm">
+                    <p class="font-bold">No se pudo guardar el curso. Revisa los campos marcados en rojo:</p>
+                    <ul class="mt-1 list-disc pl-5">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if($moodleError)
+                <div class="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 shadow-sm">
+                    <p class="font-bold">Atención: aula Moodle no creada automáticamente</p>
+                    <p class="mt-1">{{ $moodleError }}</p>
+                </div>
+            @endif
+
+            @if($moodleNotice)
+                <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 shadow-sm">
+                    <p class="font-bold">{{ $moodleNotice }}</p>
+                </div>
+            @endif
+
             {{-- Datos Generales --}}
             <div class="space-y-4">
                 <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">

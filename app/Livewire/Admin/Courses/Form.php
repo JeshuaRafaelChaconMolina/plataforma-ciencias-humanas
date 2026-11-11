@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Category;
 use App\Models\CourseModule;
 use App\Models\MoodleCourseLink;
+use App\Services\MoodleService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -33,6 +34,11 @@ class Form extends Component
     // Vínculo con Moodle
     public string $moodle_url = '';
     public bool $moodle_is_active = true;
+
+    // Alerta visible en el formulario cuando Moodle falla o falta configurar.
+    // El curso de Laravel se guarda igual; esto solo avisa que el enlace no se creó solo.
+    public ?string $moodleError = null;
+    public ?string $moodleNotice = null;
 
     public function mount($course = null)
     {
@@ -88,7 +94,9 @@ class Form extends Component
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'image' => 'nullable|image|max:4096',
-            'modules.*.title' => 'required_with:modules|string|max:255',
+            // Un módulo con título vacío se descarta al guardar (ver save()),
+            // así que no debe bloquear todo el curso.
+            'modules.*.title' => 'nullable|string|max:255',
             'modules.*.description' => 'nullable|string',
             'moodle_url' => 'nullable|url|max:2048',
         ];
@@ -134,18 +142,52 @@ class Form extends Component
             ]);
         }
 
-        // Vínculo con Moodle (se guarda solo si se capturo una URL)
+        // Vínculo con Moodle.
+        // 1) Si el usuario pegó una URL, se guarda tal cual.
+        // 2) Si no pegó nada, se intenta crear el curso en Moodle automáticamente
+        //    y se guarda la URL que devuelve. Si eso falla, el curso de Laravel
+        //    queda guardado igual y se muestra la alerta en el formulario.
+        $this->moodleError = null;
+        $this->moodleNotice = null;
+        $moodleCourseId = $this->course->moodleLink?->moodle_course_id;
+
         if (trim($this->moodle_url) !== '') {
             MoodleCourseLink::updateOrCreate(
                 ['course_id' => $this->course->id],
-                ['moodle_url' => $this->moodle_url, 'is_active' => $this->moodle_is_active]
+                ['moodle_url' => $this->moodle_url, 'moodle_course_id' => $moodleCourseId, 'is_active' => $this->moodle_is_active]
             );
-        } 
-        else {
-            MoodleCourseLink::where('course_id', $this->course->id)->delete();
+        } else {
+            $result = app(MoodleService::class)->createCourse(
+                $this->course->title,
+                $this->course->title,
+                (string) $this->course->description,
+                $this->course->id
+            );
+
+            if ($result['ok']) {
+                $this->moodle_url = (string) $result['url'];
+                $moodleCourseId = (string) $result['id'];
+                MoodleCourseLink::updateOrCreate(
+                    ['course_id' => $this->course->id],
+                    ['moodle_url' => $this->moodle_url, 'moodle_course_id' => $moodleCourseId, 'is_active' => $this->moodle_is_active]
+                );
+                $this->moodleNotice = 'Aula Moodle creada automáticamente: '.$this->moodle_url;
+            } else {
+                // No se borra el enlace que ya existía; solo se avisa.
+                if (! $this->course->moodleLink) {
+                    MoodleCourseLink::where('course_id', $this->course->id)->delete();
+                }
+                $this->moodleError = 'El curso se guardó en Laravel, pero no se pudo crear el aula en Moodle automáticamente: '.$result['error'].' Puedes crear el curso en Moodle y pegar su URL en la sección 5.';
+            }
         }
 
-        session()->flash('status', 'Curso guardado correctamente.');
+        if ($this->moodleError !== null) {
+            // Se queda en el formulario para que la alerta se vea,
+            // sin perder lo que ya se guardó.
+            return;
+        }
+
+        session()->flash('status', 'Curso guardado correctamente.'.($this->moodleNotice ? ' '.$this->moodleNotice : ''));
 
         return redirect()->route('admin.courses.index');
     }
