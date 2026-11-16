@@ -5,7 +5,7 @@
         {{-- Fondo Fotográfico de Biblioteca Universitaria y Efectos de Iluminación Institucionales --}}
         <div class="pointer-events-none absolute inset-0 overflow-hidden">
             {{-- Imagen de biblioteca con overlay institucional para garantizar máximo contraste y legibilidad --}}
-            <img src="{{ asset('images/library-bg.jpg') }}" alt="Biblioteca Ciencias Humanas" class="h-full w-full object-cover object-center opacity-30">
+            <img src="{{ asset('images/library-bg.jpg') }}" alt="Biblioteca Impulso Virtual" class="h-full w-full object-cover object-center opacity-30">
             <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-primary-950/90 to-primary-900/75"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/60"></div>
             <div class="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-primary-600/20 blur-[120px]"></div>
@@ -19,7 +19,7 @@
                 <div class="lg:col-span-7 space-y-6">
                     <div class="inline-flex items-center gap-2 rounded-full border border-accent-400/30 bg-accent-500/10 px-4 py-1.5 text-xs font-semibold text-accent-300 backdrop-blur-sm">
                         <span class="h-2 w-2 rounded-full bg-accent-400 animate-pulse"></span>
-                        <span>Portal Académico e Institucional</span>
+                        <span>Impulso Virtual · Plataforma educativa</span>
                     </div>
 
                     <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-white leading-tight">
@@ -59,7 +59,7 @@
                             <div class="flex items-center justify-between pb-6 border-b border-white/10">
                                 <div class="flex items-center gap-2.5">
                                     <span class="flex h-3 w-3 rounded-full bg-accent-400"></span>
-                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Ciencias Humanas</span>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Impulso Virtual</span>
                                 </div>
                                 <span class="rounded-full bg-primary-600/30 px-3 py-1 text-[11px] font-semibold text-primary-200 border border-primary-500/20">
                                     Acceso Libre

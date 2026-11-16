@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? config('app.name') }} — Ciencias Humanas</title>
+    <title>{{ $title ?? config('app.name') }} — Impulso Virtual</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800|newsreader:400,400i,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -18,17 +19,10 @@
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
             {{-- Logo / Identidad Institucional --}}
             <a href="{{ route('home') }}" class="group flex items-center gap-3">
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-700 to-primary-900 text-white shadow-md shadow-primary-900/10 transition-transform duration-200 group-hover:scale-105">
-                    <svg class="h-6 w-6 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                    </svg>
-                </div>
+                <img src="{{ asset('images/logo-grupo-horizontal.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-11 w-auto object-contain">
                 <div class="flex flex-col">
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-primary-600">Portal Institucional</span>
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700">Ciencias Humanas</span>
-                        <span class="h-1.5 w-1.5 rounded-full bg-accent-500"></span>
-                    </div>
+                    <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700">Impulso Virtual</span>
+                    <span class="text-[10px] font-semibold tracking-wide text-slate-500">Grupo de Investigación Subjetividades y Cultura Digital</span>
                 </div>
             </a>
 
@@ -189,12 +183,8 @@
                 {{-- Columna 1: Identidad y propósito --}}
                 <div class="space-y-4">
                     <div class="flex items-center gap-2 text-white">
-                        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-700 text-white shadow-sm">
-                            <svg class="h-5 w-5 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                            </svg>
-                        </div>
-                        <span class="text-lg font-bold tracking-tight">Ciencias Humanas</span>
+                        <img src="{{ asset('images/logo-grupo-sin-borde.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-12 w-auto object-contain">
+                        <span class="text-lg font-bold tracking-tight">Impulso Virtual</span>
                     </div>
                     <div class="h-1 w-12 rounded-full bg-accent-500"></div>
                     <p class="text-sm leading-relaxed text-slate-300">
@@ -265,7 +255,7 @@
 
             {{-- Pie inferior --}}
             <div class="mt-12 border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-                <p>&copy; {{ date('Y') }} Plataforma Ciencias Humanas. Todos los derechos reservados.</p>
+                <p>&copy; {{ date('Y') }} Impulso Virtual. Todos los derechos reservados.</p>
                 <div class="flex items-center gap-2">
                     <span class="inline-block h-2 w-2 rounded-full bg-accent-500"></span>
                     <span>Educación e Investigación de Calidad</span>

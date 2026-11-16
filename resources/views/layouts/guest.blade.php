@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Ciencias Humanas') }} — Acceso Institucional</title>
+        <title>{{ config('app.name', 'Impulso Virtual') }} — Acceso</title>
+        <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
 
@@ -18,7 +19,7 @@
 
         {{-- Fondo Fotográfico de Estudio de Humanidades con Overlay Suave --}}
         <div class="fixed inset-0 z-0 overflow-hidden">
-            <img src="{{ asset('images/desk-bg.jpg') }}" alt="Ciencias Humanas" class="h-full w-full object-cover object-center">
+            <img src="{{ asset('images/desk-bg.jpg') }}" alt="Impulso Virtual" class="h-full w-full object-cover object-center">
             <div class="absolute inset-0 bg-slate-950/50 backdrop-blur-[2px]"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/50"></div>
         </div>
@@ -31,14 +32,10 @@
                     {{-- Encabezado de la Tarjeta --}}
                     <div class="text-center pb-6 border-b border-slate-100">
                         <a href="{{ route('home') }}" class="inline-flex items-center justify-center gap-3.5 group">
-                            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-700 text-white shadow-md shadow-primary-700/25 transition-transform duration-200 group-hover:scale-105">
-                                <svg class="h-7 w-7 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                                </svg>
-                            </div>
+                            <img src="{{ asset('images/logo-grupo-circular.png') }}" alt="Impulso Virtual" class="h-14 w-14 rounded-full object-cover shadow-md shadow-primary-700/25 transition-transform duration-200 group-hover:scale-105">
                             <div class="text-left">
-                                <span class="block text-[11px] font-bold uppercase tracking-widest text-primary-700">Portal Académico</span>
-                                <span class="text-xl font-black tracking-tight text-slate-900 group-hover:text-primary-700 transition-colors">Ciencias Humanas</span>
+                                <span class="block text-[11px] font-bold uppercase tracking-widest text-primary-700">Plataforma educativa</span>
+                                <span class="text-xl font-black tracking-tight text-slate-900 group-hover:text-primary-700 transition-colors">Impulso Virtual</span>
                             </div>
                         </a>
                     </div>
@@ -64,7 +61,7 @@
 
         {{-- Footer Sencillo Institucional --}}
         <div class="relative z-10 py-5 text-center text-xs text-slate-300">
-            &copy; {{ date('Y') }} Ciencias Humanas. Plataforma institucional y académica de libre acceso.
+            &copy; {{ date('Y') }} Impulso Virtual. Plataforma educativa de libre acceso.
         </div>
 
         @livewireScripts

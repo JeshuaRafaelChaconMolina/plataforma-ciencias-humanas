@@ -1,0 +1,312 @@
+diff --git a/.env.example b/.env.example
+index a20849c..91b13ee 100644
+--- a/.env.example
++++ b/.env.example
+@@ -1,4 +1,4 @@
+-APP_NAME="Ciencias Humanas"
++APP_NAME="Impulso Virtual"
+ APP_ENV=local
+ APP_KEY=
+ APP_DEBUG=true
+@@ -34,7 +34,7 @@ MAIL_PORT=2525
+ MAIL_USERNAME=null
+ MAIL_PASSWORD=null
+ MAIL_ENCRYPTION=null
+-MAIL_FROM_ADDRESS="no-reply@ciencias-humanas.local"
++MAIL_FROM_ADDRESS="no-reply@impulsovirtualmx.com"
+ MAIL_FROM_NAME="${APP_NAME}"
+ 
+ # ---- Integracion Moodle (Fase 6 - no obligatorio en Fase 1) ----
+diff --git a/resources/views/components/layouts/app.blade.php b/resources/views/components/layouts/app.blade.php
+index 1b80ecc..15de42c 100644
+--- a/resources/views/components/layouts/app.blade.php
++++ b/resources/views/components/layouts/app.blade.php
+@@ -3,7 +3,8 @@
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+-    <title>{{ $title ?? 'Panel de Control' }} — Ciencias Humanas</title>
++    <title>{{ $title ?? 'Panel de Control' }} — Impulso Virtual</title>
++    <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
+     <link rel="preconnect" href="https://fonts.bunny.net">
+     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
+@@ -35,14 +36,10 @@ class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-slate-950 text-white sh
+             {{-- Encabezado del Sidebar --}}
+             <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
+                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+-                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-700 text-white shadow-md shadow-primary-700/30 transition-transform duration-200 group-hover:scale-105">
+-                        <svg class="h-5 w-5 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+-                        </svg>
+-                    </div>
++                    <img src="{{ asset('images/logo-grupo-sin-borde.png') }}" alt="Impulso Virtual" class="h-10 w-auto object-contain rounded-lg">
+                     <div>
+-                        <span class="text-xs font-bold uppercase tracking-widest text-primary-400 block">Plataforma</span>
+-                        <span class="text-base font-black tracking-tight text-white">Ciencias Humanas</span>
++                        <span class="text-xs font-bold uppercase tracking-widest text-primary-400 block">Plataforma educativa</span>
++                        <span class="text-base font-black tracking-tight text-white">Impulso Virtual</span>
+                     </div>
+                 </a>
+ 
+diff --git a/resources/views/components/layouts/public.blade.php b/resources/views/components/layouts/public.blade.php
+index 4a402a7..bff6af9 100644
+--- a/resources/views/components/layouts/public.blade.php
++++ b/resources/views/components/layouts/public.blade.php
+@@ -3,7 +3,8 @@
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+-    <title>{{ $title ?? config('app.name') }} — Ciencias Humanas</title>
++    <title>{{ $title ?? config('app.name') }} — Impulso Virtual</title>
++    <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
+     <link rel="preconnect" href="https://fonts.bunny.net">
+     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800|newsreader:400,400i,600&display=swap" rel="stylesheet" />
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
+@@ -18,17 +19,10 @@
+         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+             {{-- Logo / Identidad Institucional --}}
+             <a href="{{ route('home') }}" class="group flex items-center gap-3">
+-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-700 to-primary-900 text-white shadow-md shadow-primary-900/10 transition-transform duration-200 group-hover:scale-105">
+-                    <svg class="h-6 w-6 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+-                    </svg>
+-                </div>
++                <img src="{{ asset('images/logo-grupo-horizontal.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-11 w-auto object-contain">
+                 <div class="flex flex-col">
+-                    <span class="text-[10px] font-bold uppercase tracking-widest text-primary-600">Portal Institucional</span>
+-                    <div class="flex items-center gap-1.5">
+-                        <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700">Ciencias Humanas</span>
+-                        <span class="h-1.5 w-1.5 rounded-full bg-accent-500"></span>
+-                    </div>
++                    <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700">Impulso Virtual</span>
++                    <span class="text-[10px] font-semibold tracking-wide text-slate-500">Grupo de Investigación Subjetividades y Cultura Digital</span>
+                 </div>
+             </a>
+ 
+@@ -189,12 +183,8 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                 {{-- Columna 1: Identidad y propósito --}}
+                 <div class="space-y-4">
+                     <div class="flex items-center gap-2 text-white">
+-                        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-700 text-white shadow-sm">
+-                            <svg class="h-5 w-5 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+-                            </svg>
+-                        </div>
+-                        <span class="text-lg font-bold tracking-tight">Ciencias Humanas</span>
++                        <img src="{{ asset('images/logo-grupo-sin-borde.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-12 w-auto object-contain">
++                        <span class="text-lg font-bold tracking-tight">Impulso Virtual</span>
+                     </div>
+                     <div class="h-1 w-12 rounded-full bg-accent-500"></div>
+                     <p class="text-sm leading-relaxed text-slate-300">
+@@ -265,7 +255,7 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+ 
+             {{-- Pie inferior --}}
+             <div class="mt-12 border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+-                <p>&copy; {{ date('Y') }} Plataforma Ciencias Humanas. Todos los derechos reservados.</p>
++                <p>&copy; {{ date('Y') }} Impulso Virtual. Todos los derechos reservados.</p>
+                 <div class="flex items-center gap-2">
+                     <span class="inline-block h-2 w-2 rounded-full bg-accent-500"></span>
+                     <span>Educación e Investigación de Calidad</span>
+diff --git a/resources/views/layouts/app.blade.php b/resources/views/layouts/app.blade.php
+index 1b80ecc..15de42c 100644
+--- a/resources/views/layouts/app.blade.php
++++ b/resources/views/layouts/app.blade.php
+@@ -3,7 +3,8 @@
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+-    <title>{{ $title ?? 'Panel de Control' }} — Ciencias Humanas</title>
++    <title>{{ $title ?? 'Panel de Control' }} — Impulso Virtual</title>
++    <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
+     <link rel="preconnect" href="https://fonts.bunny.net">
+     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
+@@ -35,14 +36,10 @@ class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-slate-950 text-white sh
+             {{-- Encabezado del Sidebar --}}
+             <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
+                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+-                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-700 text-white shadow-md shadow-primary-700/30 transition-transform duration-200 group-hover:scale-105">
+-                        <svg class="h-5 w-5 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+-                        </svg>
+-                    </div>
++                    <img src="{{ asset('images/logo-grupo-sin-borde.png') }}" alt="Impulso Virtual" class="h-10 w-auto object-contain rounded-lg">
+                     <div>
+-                        <span class="text-xs font-bold uppercase tracking-widest text-primary-400 block">Plataforma</span>
+-                        <span class="text-base font-black tracking-tight text-white">Ciencias Humanas</span>
++                        <span class="text-xs font-bold uppercase tracking-widest text-primary-400 block">Plataforma educativa</span>
++                        <span class="text-base font-black tracking-tight text-white">Impulso Virtual</span>
+                     </div>
+                 </a>
+ 
+diff --git a/resources/views/layouts/guest.blade.php b/resources/views/layouts/guest.blade.php
+index 036831c..726a7d4 100644
+--- a/resources/views/layouts/guest.blade.php
++++ b/resources/views/layouts/guest.blade.php
+@@ -5,7 +5,8 @@
+         <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="csrf-token" content="{{ csrf_token() }}">
+ 
+-        <title>{{ config('app.name', 'Ciencias Humanas') }} — Acceso Institucional</title>
++        <title>{{ config('app.name', 'Impulso Virtual') }} — Acceso</title>
++        <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
+         <link rel="preconnect" href="https://fonts.bunny.net">
+         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
+ 
+@@ -18,7 +19,7 @@
+ 
+         {{-- Fondo Fotográfico de Estudio de Humanidades con Overlay Suave --}}
+         <div class="fixed inset-0 z-0 overflow-hidden">
+-            <img src="{{ asset('images/desk-bg.jpg') }}" alt="Ciencias Humanas" class="h-full w-full object-cover object-center">
++            <img src="{{ asset('images/desk-bg.jpg') }}" alt="Impulso Virtual" class="h-full w-full object-cover object-center">
+             <div class="absolute inset-0 bg-slate-950/50 backdrop-blur-[2px]"></div>
+             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/50"></div>
+         </div>
+@@ -31,14 +32,10 @@
+                     {{-- Encabezado de la Tarjeta --}}
+                     <div class="text-center pb-6 border-b border-slate-100">
+                         <a href="{{ route('home') }}" class="inline-flex items-center justify-center gap-3.5 group">
+-                            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-700 text-white shadow-md shadow-primary-700/25 transition-transform duration-200 group-hover:scale-105">
+-                                <svg class="h-7 w-7 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+-                                </svg>
+-                            </div>
++                            <img src="{{ asset('images/logo-grupo-circular.png') }}" alt="Impulso Virtual" class="h-14 w-14 rounded-full object-cover shadow-md shadow-primary-700/25 transition-transform duration-200 group-hover:scale-105">
+                             <div class="text-left">
+-                                <span class="block text-[11px] font-bold uppercase tracking-widest text-primary-700">Portal Académico</span>
+-                                <span class="text-xl font-black tracking-tight text-slate-900 group-hover:text-primary-700 transition-colors">Ciencias Humanas</span>
++                                <span class="block text-[11px] font-bold uppercase tracking-widest text-primary-700">Plataforma educativa</span>
++                                <span class="text-xl font-black tracking-tight text-slate-900 group-hover:text-primary-700 transition-colors">Impulso Virtual</span>
+                             </div>
+                         </a>
+                     </div>
+@@ -64,7 +61,7 @@ class="inline-flex items-center gap-2 text-xs font-semibold text-white/90 hover:
+ 
+         {{-- Footer Sencillo Institucional --}}
+         <div class="relative z-10 py-5 text-center text-xs text-slate-300">
+-            &copy; {{ date('Y') }} Ciencias Humanas. Plataforma institucional y académica de libre acceso.
++            &copy; {{ date('Y') }} Impulso Virtual. Plataforma educativa de libre acceso.
+         </div>
+ 
+         @livewireScripts
+diff --git a/resources/views/layouts/public.blade.php b/resources/views/layouts/public.blade.php
+index d269b1f..4643cae 100644
+--- a/resources/views/layouts/public.blade.php
++++ b/resources/views/layouts/public.blade.php
+@@ -3,7 +3,8 @@
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+-    <title>{{ $title ?? config('app.name') }} — Ciencias Humanas</title>
++    <title>{{ $title ?? config('app.name') }} — Impulso Virtual</title>
++    <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
+     <link rel="preconnect" href="https://fonts.bunny.net">
+     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800|newsreader:400,400i,600&display=swap" rel="stylesheet" />
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
+@@ -18,17 +19,10 @@
+         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+             {{-- Logo / Identidad Institucional --}}
+             <a href="{{ route('home') }}" class="group flex items-center gap-3">
+-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-700 to-primary-900 text-white shadow-md shadow-primary-900/10 transition-transform duration-200 group-hover:scale-105">
+-                    <svg class="h-6 w-6 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+-                    </svg>
+-                </div>
++                <img src="{{ asset('images/logo-grupo-horizontal.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-11 w-auto object-contain">
+                 <div class="flex flex-col">
+-                    <span class="text-[10px] font-bold uppercase tracking-widest text-primary-600">Portal Institucional</span>
+-                    <div class="flex items-center gap-1.5">
+-                        <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700">Ciencias Humanas</span>
+-                        <span class="h-1.5 w-1.5 rounded-full bg-accent-500"></span>
+-                    </div>
++                    <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700">Impulso Virtual</span>
++                    <span class="text-[10px] font-semibold tracking-wide text-slate-500">Grupo de Investigación Subjetividades y Cultura Digital</span>
+                 </div>
+             </a>
+ 
+@@ -189,12 +183,8 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                 {{-- Columna 1: Identidad y propósito --}}
+                 <div class="space-y-4">
+                     <div class="flex items-center gap-2 text-white">
+-                        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-700 text-white shadow-sm">
+-                            <svg class="h-5 w-5 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+-                            </svg>
+-                        </div>
+-                        <span class="text-lg font-bold tracking-tight">Ciencias Humanas</span>
++                        <img src="{{ asset('images/logo-grupo-sin-borde.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-12 w-auto object-contain">
++                        <span class="text-lg font-bold tracking-tight">Impulso Virtual</span>
+                     </div>
+                     <div class="h-1 w-12 rounded-full bg-accent-500"></div>
+                     <p class="text-sm leading-relaxed text-slate-300">
+@@ -265,7 +255,7 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+ 
+             {{-- Pie inferior --}}
+             <div class="mt-12 border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+-                <p>&copy; {{ date('Y') }} Plataforma Ciencias Humanas. Todos los derechos reservados.</p>
++                <p>&copy; {{ date('Y') }} Impulso Virtual. Todos los derechos reservados.</p>
+                 <div class="flex items-center gap-2">
+                     <span class="inline-block h-2 w-2 rounded-full bg-accent-500"></span>
+                     <span>Educación e Investigación de Calidad</span>
+diff --git a/resources/views/livewire/pages/auth/login.blade.php b/resources/views/livewire/pages/auth/login.blade.php
+index 76fed1f..2729c45 100644
+--- a/resources/views/livewire/pages/auth/login.blade.php
++++ b/resources/views/livewire/pages/auth/login.blade.php
+@@ -48,7 +48,7 @@ public function login(): void
+                        required
+                        autofocus
+                        autocomplete="username"
+-                       placeholder="ejemplo@ciencias-humanas.local"
++                       placeholder="ejemplo@impulsovirtualmx.com"
+                        class="w-full rounded-xl border-slate-300 px-4 py-3 text-base text-slate-900 shadow-sm focus:border-primary-600 focus:ring-primary-600">
+             </div>
+             <x-input-error :messages="$errors->get('form.email')" class="mt-1.5" />
+@@ -101,5 +101,15 @@ class="flex w-full items-center justify-center gap-2.5 rounded-xl bg-primary-700
+                 </svg>
+             </button>
+         </div>
++
++        {{-- Registro abierto para alumnos --}}
++        @if (Route::has('register'))
++            <p class="pt-2 text-center text-sm text-slate-600">
++                ¿No tienes cuenta?
++                <a class="font-semibold text-primary-700 hover:text-primary-800 hover:underline" href="{{ route('register') }}" wire:navigate>
++                    Crear cuenta
++                </a>
++            </p>
++        @endif
+     </form>
+ </div>
+\ No newline at end of file
+diff --git a/resources/views/public/home.blade.php b/resources/views/public/home.blade.php
+index 25c960f..2550992 100644
+--- a/resources/views/public/home.blade.php
++++ b/resources/views/public/home.blade.php
+@@ -5,7 +5,7 @@
+         {{-- Fondo Fotográfico de Biblioteca Universitaria y Efectos de Iluminación Institucionales --}}
+         <div class="pointer-events-none absolute inset-0 overflow-hidden">
+             {{-- Imagen de biblioteca con overlay institucional para garantizar máximo contraste y legibilidad --}}
+-            <img src="{{ asset('images/library-bg.jpg') }}" alt="Biblioteca Ciencias Humanas" class="h-full w-full object-cover object-center opacity-30">
++            <img src="{{ asset('images/library-bg.jpg') }}" alt="Biblioteca Impulso Virtual" class="h-full w-full object-cover object-center opacity-30">
+             <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-primary-950/90 to-primary-900/75"></div>
+             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/60"></div>
+             <div class="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-primary-600/20 blur-[120px]"></div>
+@@ -19,7 +19,7 @@
+                 <div class="lg:col-span-7 space-y-6">
+                     <div class="inline-flex items-center gap-2 rounded-full border border-accent-400/30 bg-accent-500/10 px-4 py-1.5 text-xs font-semibold text-accent-300 backdrop-blur-sm">
+                         <span class="h-2 w-2 rounded-full bg-accent-400 animate-pulse"></span>
+-                        <span>Portal Académico e Institucional</span>
++                        <span>Impulso Virtual · Plataforma educativa</span>
+                     </div>
+ 
+                     <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-white leading-tight">
+@@ -59,7 +59,7 @@ class="inline-flex items-center justify-center gap-2 rounded-xl border border-wh
+                             <div class="flex items-center justify-between pb-6 border-b border-white/10">
+                                 <div class="flex items-center gap-2.5">
+                                     <span class="flex h-3 w-3 rounded-full bg-accent-400"></span>
+-                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Ciencias Humanas</span>
++                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Impulso Virtual</span>
+                                 </div>
+                                 <span class="rounded-full bg-primary-600/30 px-3 py-1 text-[11px] font-semibold text-primary-200 border border-primary-500/20">
+                                     Acceso Libre

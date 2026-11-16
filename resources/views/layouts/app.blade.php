@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? 'Panel de Control' }} — Ciencias Humanas</title>
+    <title>{{ $title ?? 'Panel de Control' }} — Impulso Virtual</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-grupo-circular.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,14 +36,10 @@
             {{-- Encabezado del Sidebar --}}
             <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-700 text-white shadow-md shadow-primary-700/30 transition-transform duration-200 group-hover:scale-105">
-                        <svg class="h-5 w-5 text-accent-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                        </svg>
-                    </div>
+                    <img src="{{ asset('images/logo-grupo-sin-borde.png') }}" alt="Impulso Virtual" class="h-10 w-auto object-contain rounded-lg">
                     <div>
-                        <span class="text-xs font-bold uppercase tracking-widest text-primary-400 block">Plataforma</span>
-                        <span class="text-base font-black tracking-tight text-white">Ciencias Humanas</span>
+                        <span class="text-xs font-bold uppercase tracking-widest text-primary-400 block">Plataforma educativa</span>
+                        <span class="text-base font-black tracking-tight text-white">Impulso Virtual</span>
                     </div>
                 </a>
 

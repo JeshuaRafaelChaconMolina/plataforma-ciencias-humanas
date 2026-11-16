@@ -48,7 +48,7 @@ new #[Layout('layouts.guest')] class extends Component
                        required
                        autofocus
                        autocomplete="username"
-                       placeholder="ejemplo@ciencias-humanas.local"
+                       placeholder="ejemplo@impulsovirtualmx.com"
                        class="w-full rounded-xl border-slate-300 px-4 py-3 text-base text-slate-900 shadow-sm focus:border-primary-600 focus:ring-primary-600">
             </div>
             <x-input-error :messages="$errors->get('form.email')" class="mt-1.5" />
@@ -101,5 +101,15 @@ new #[Layout('layouts.guest')] class extends Component
                 </svg>
             </button>
         </div>
+
+        {{-- Registro abierto para alumnos --}}
+        @if (Route::has('register'))
+            <p class="pt-2 text-center text-sm text-slate-600">
+                ¿No tienes cuenta?
+                <a class="font-semibold text-primary-700 hover:text-primary-800 hover:underline" href="{{ route('register') }}" wire:navigate>
+                    Crear cuenta
+                </a>
+            </p>
+        @endif
     </form>
 </div>
