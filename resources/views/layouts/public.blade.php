@@ -19,10 +19,10 @@
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
             {{-- Logo / Identidad Institucional --}}
             <a href="{{ route('home') }}" class="group flex items-center gap-3">
-                <img src="{{ asset('images/logo-grupo-horizontal.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-11 w-auto object-contain">
+                <img src="{{ asset('images/logo-grupo-circular.png') }}" alt="Grupo de Investigación Subjetividades y Cultura Digital" class="h-16 w-16 shrink-0 rounded-full object-cover shadow-sm sm:h-20 sm:w-20">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700">Impulso Virtual</span>
-                    <span class="text-[10px] font-semibold tracking-wide text-slate-500">Grupo de Investigación Subjetividades y Cultura Digital</span>
+                    <span class="text-xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary-700 sm:text-2xl">Impulso Virtual</span>
+                    <span class="text-[10px] font-semibold leading-tight tracking-wide text-slate-500 sm:text-xs">Grupo de Investigación Subjetividades y Cultura Digital</span>
                 </div>
             </a>
 
