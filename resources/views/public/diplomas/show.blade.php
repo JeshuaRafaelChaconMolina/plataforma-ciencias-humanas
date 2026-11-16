@@ -44,6 +44,50 @@
                     </div>
                 </div>
 
+
+                {{-- Plan Temático / Módulos --}}
+                @if($diploma->modules->isNotEmpty())
+                    <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div class="flex items-center gap-2 text-primary-800 font-bold text-lg">
+                                <svg class="h-5 w-5 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                </svg>
+                                <h2>Estructura del Diplomado</h2>
+                            </div>
+                            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                                {{ $diploma->modules->count() }} {{ $diploma->modules->count() === 1 ? 'módulo' : 'módulos' }}
+                            </span>
+                        </div>
+
+                        <div class="space-y-3">
+                            @foreach($diploma->modules as $index => $module)
+                                <div class="flex items-start gap-4 rounded-xl border border-slate-100 bg-slate-50/70 p-4 transition hover:bg-white hover:shadow-xs">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-700 text-xs font-bold text-white">
+                                        {{ $index + 1 }}
+                                    </span>
+                                    <div class="flex-1">
+                                        <h3 class="text-base font-bold text-slate-900">{{ $module->title }}</h3>
+                                        @if($module->description)
+                                            <p class="mt-1 text-sm text-slate-600 leading-relaxed">{{ $module->description }}</p>
+                                        @endif
+                                        @if($module->lessons->isNotEmpty())
+                                            <ul class="mt-2 space-y-1 text-sm text-slate-600">
+                                                @foreach($module->lessons as $lesson)
+                                                    <li class="flex items-start gap-2">
+                                                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500"></span>
+                                                        <span>{{ $lesson->title }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
                 {{-- Cursos que lo integran --}}
                 @if($diploma->courses->isNotEmpty())
                     <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-4">
@@ -87,6 +131,43 @@
                             <span class="text-xs uppercase font-semibold text-slate-600">Total de cursos</span>
                             <span class="font-bold text-primary-700">{{ $diploma->courses->count() }}</span>
                         </div>
+                        @if($diploma->duration)
+                            <div class="flex items-center justify-between text-slate-600">
+                                <span class="text-xs uppercase font-semibold text-slate-600">Duración</span>
+                                <span class="font-bold text-slate-800">{{ $diploma->duration }}</span>
+                            </div>
+                        @endif
+                        <div class="flex items-center justify-between text-slate-600">
+                            <span class="text-xs uppercase font-semibold text-slate-600">Modalidad</span>
+                            <span class="font-bold text-slate-800">{{ $diploma->modality ?? 'En línea / Híbrida' }}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-slate-600">
+                            <span class="text-xs uppercase font-semibold text-slate-600">Plataforma</span>
+                            <span class="font-bold text-primary-700">Moodle LMS</span>
+                        </div>
+                    </div>
+
+                    {{-- Botón Moodle oficial institucional --}}
+                    <div class="pt-2">
+                        @if($diploma->moodleLink?->is_active && $diploma->moodleLink?->moodle_url)
+                            <a href="{{ $diploma->moodleLink->moodle_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="flex w-full items-center justify-center gap-2 rounded-xl bg-accent-500 py-3.5 px-4 text-center text-sm font-extrabold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-400">
+                                <span>INGRESAR AL DIPLOMADO</span>
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                </svg>
+                            </a>
+                            <p class="mt-2 text-center text-xs text-slate-600">
+                                Serás redirigido al aula virtual de Moodle.
+                            </p>
+                        @else
+                            <div class="rounded-xl bg-slate-50 border border-slate-200/80 p-4 text-center">
+                                <p class="text-xs font-semibold text-slate-700">Enlace de acceso en configuración</p>
+                                <p class="mt-0.5 text-[11px] text-slate-500">Pronto se habilitará el acceso directo a este programa en Moodle.</p>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="pt-4 border-t border-slate-100">

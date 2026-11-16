@@ -10,7 +10,6 @@ class Workshop extends Model
 {
     use HasFactory, HasEducationalOffering;
 
-    // Estructura independiente: sin módulos ni Moodle, tal como se acordo.
     protected $fillable = [
         'category_id', 'created_by', 'title', 'slug', 'description', 'purpose',
         'image', 'duration', 'modality', 'status', 'start_date', 'end_date',
@@ -22,5 +21,15 @@ class Workshop extends Model
             'start_date' => 'date',
             'end_date' => 'date',
         ];
+    }
+
+    public function modules()
+    {
+        return $this->hasMany(WorkshopModule::class)->orderBy('order');
+    }
+
+    public function moodleLink()
+    {
+        return $this->hasOne(MoodleCourseLink::class, 'workshop_id');
     }
 }

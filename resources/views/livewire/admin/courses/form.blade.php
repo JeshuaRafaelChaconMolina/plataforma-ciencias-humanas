@@ -217,6 +217,34 @@
                                           rows="2"
                                           placeholder="Descripción de temas o actividades de este módulo (opcional)..."
                                           class="w-full rounded-xl border-slate-200 px-3.5 py-2 text-sm shadow-sm focus:border-primary-600 focus:ring-primary-600"></textarea>
+
+                                <div class="space-y-2 pt-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-700">Lecciones del módulo</span>
+                                        <button type="button" wire:click="addLesson({{ $index }})"
+                                                class="inline-flex items-center gap-1 text-xs font-bold text-primary-700 hover:text-primary-900 bg-primary-50 hover:bg-primary-100 px-2.5 py-1 rounded-lg transition">
+                                            <span>+ Agregar lección</span>
+                                        </button>
+                                    </div>
+                                    @foreach(($module['lessons'] ?? []) as $lessonIndex => $lesson)
+                                        <div wire:key="module-{{ $index }}-lesson-{{ $lessonIndex }}" class="flex items-center gap-2">
+                                            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">
+                                                {{ $lessonIndex + 1 }}
+                                            </span>
+                                            <input type="text"
+                                                   wire:model="modules.{{ $index }}.lessons.{{ $lessonIndex }}.title"
+                                                   placeholder="Título de la lección"
+                                                   class="w-full rounded-xl border-slate-200 px-3 py-1.5 text-sm shadow-sm focus:border-primary-600 focus:ring-primary-600">
+                                            <button type="button"
+                                                    wire:click="removeLesson({{ $index }}, {{ $lessonIndex }})"
+                                                    class="text-xs font-bold text-red-600 hover:text-red-800 p-1 rounded-lg hover:bg-red-50 transition"
+                                                    title="Eliminar lección">×</button>
+                                        </div>
+                                    @endforeach
+                                    @empty($module['lessons'] ?? [])
+                                        <p class="text-[11px] text-slate-400">Sin lecciones. Haz clic en "Agregar lección" para listar los temas de este módulo.</p>
+                                    @endempty
+                                </div>
                             </div>
                             <button type="button"
                                     wire:click="removeModule({{ $index }})"

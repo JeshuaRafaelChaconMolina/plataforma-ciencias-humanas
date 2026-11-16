@@ -27,6 +27,8 @@ class WorkshopController extends Controller
     {
         abort_unless($workshop->status === 'published', 404);
 
+        $workshop->load(['modules.lessons', 'moodleLink']);
+
         return view('public.workshops.show', compact('workshop'));
     }
 }

@@ -32,4 +32,14 @@ class Diploma extends Model
     {
         return $this->belongsToMany(Course::class, 'diploma_courses')->withPivot('order')->withTimestamps();
     }
+
+    public function modules()
+    {
+        return $this->hasMany(DiplomaModule::class)->orderBy('order');
+    }
+
+    public function moodleLink()
+    {
+        return $this->hasOne(MoodleCourseLink::class, 'diploma_id');
+    }
 }

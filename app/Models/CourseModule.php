@@ -12,4 +12,9 @@ class CourseModule extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public function lessons()
+    {
+        return $this->morphMany(ModuleLesson::class, 'lessonable')->orderBy('order');
+    }
 }

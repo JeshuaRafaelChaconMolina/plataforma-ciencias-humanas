@@ -55,6 +55,7 @@
                 <tr>
                     <th class="px-5 py-3.5">Taller y Modalidad</th>
                     <th class="px-5 py-3.5">Categoría</th>
+                    <th class="px-5 py-3.5">Moodle</th>
                     <th class="px-5 py-3.5">Fechas</th>
                     <th class="px-5 py-3.5">Estado</th>
                     <th class="px-5 py-3.5 text-right">Acciones</th>
@@ -89,6 +90,20 @@
                                 <span class="h-1.5 w-1.5 rounded-full bg-primary-600"></span>
                                 {{ $item->category?->name ?? 'Sin categoría' }}
                             </span>
+                        </td>
+
+
+                        <td class="px-5 py-4">
+                            @if($item->moodleLink && $item->moodleLink->moodle_url)
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                                    <svg class="h-3 w-3 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Enlazado
+                                </span>
+                            @else
+                                <span class="text-xs text-slate-400">Sin aula</span>
+                            @endif
                         </td>
 
                         <td class="px-5 py-4 text-xs text-slate-500">
@@ -141,7 +156,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-5 py-12 text-center">
+                        <td colspan="6" class="px-5 py-12 text-center">
                             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-400 mb-3">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.67 2.67 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.07a4.5 4.5 0 0 0 4.486-6.32l-3.27 3.287a1.5 1.5 0 0 1-2.122-2.122l3.288-3.27a4.5 4.5 0 0 0-6.32 4.486c.118.58.094 1.193-.07 1.743" />

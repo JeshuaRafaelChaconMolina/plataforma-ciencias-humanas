@@ -73,6 +73,16 @@
                                         @if($module->description)
                                             <p class="mt-1 text-sm text-slate-600 leading-relaxed">{{ $module->description }}</p>
                                         @endif
+                                        @if($module->lessons->isNotEmpty())
+                                            <ul class="mt-2 space-y-1 text-sm text-slate-600">
+                                                @foreach($module->lessons as $lesson)
+                                                    <li class="flex items-start gap-2">
+                                                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500"></span>
+                                                        <span>{{ $lesson->title }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach

@@ -29,7 +29,7 @@ class DiplomaController extends Controller
 
         // Composicion por cursos disponible desde el modelo (diploma->courses),
         // se muestra en la vista solo si ya existen relaciones cargadas.
-        $diploma->load('courses');
+        $diploma->load(['modules.lessons', 'moodleLink', 'courses']);
 
         return view('public.diplomas.show', compact('diploma'));
     }

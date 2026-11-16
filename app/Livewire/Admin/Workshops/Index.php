@@ -30,7 +30,7 @@ class Index extends Component
     {
         $items = Workshop::query()
             ->when($this->search, fn ($q) => $q->where("title", "ilike", "%{$this->search}%"))
-            ->with("category")
+            ->with(["category", "moodleLink"])
             ->latest()
             ->paginate(10);
 

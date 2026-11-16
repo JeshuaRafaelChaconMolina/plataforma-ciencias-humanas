@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MoodleCourseLink extends Model
 {
-    protected $fillable = ['course_id', 'moodle_url', 'moodle_course_id', 'is_active'];
+    // Un enlace es de un curso, de un diplomado o de un taller.
+    // Solo una de course_id / diploma_id / workshop_id tiene valor.
+    protected $fillable = ['course_id', 'diploma_id', 'workshop_id', 'moodle_url', 'moodle_course_id', 'is_active'];
 
     protected function casts(): array
     {
@@ -18,6 +20,16 @@ class MoodleCourseLink extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function diploma()
+    {
+        return $this->belongsTo(Diploma::class);
+    }
+
+    public function workshop()
+    {
+        return $this->belongsTo(Workshop::class);
     }
 
     /**

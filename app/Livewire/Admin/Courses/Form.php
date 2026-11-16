@@ -28,7 +28,9 @@ class Form extends Component
     public $image;
     public ?string $existingImage = null;
 
-    // Módulos del curso: cada uno es ['title' => '', 'description' => '']
+    // Módulos del curso: cada uno es
+    // ['title' => '', 'description' => '', 'lessons' => [['title' => ''], ...]]
+    // Las lecciones son solo una lista de títulos dentro del módulo.
     public array $modules = [];
 
     // Vínculo con Moodle
@@ -46,7 +48,7 @@ class Form extends Component
 
         if ($course) {
             $courseId = $course instanceof Course ? $course->getKey() : $course;
-            $this->course = Course::with(['modules', 'moodleLink'])->findOrFail($courseId);
+            $this->course = Course::with(['modules.lessons', 'moodleLink'])->findOrFail($courseId);
             $this->title = $this->course->title;
             $this->category_id = $this->course->category_id;
             $this->description = (string) $this->course->description;
@@ -61,6 +63,7 @@ class Form extends Component
             $this->modules = $this->course->modules->map(fn ($m) => [
                 'title' => $m->title,
                 'description' => (string) $m->description,
+                'lessons' => $m->lessons->map(fn ($l) => ['title' => $l->title])->toArray(),
             ])->toArray();
 
             if ($this->course->moodleLink) {
@@ -72,13 +75,24 @@ class Form extends Component
 
     public function addModule()
     {
-        $this->modules[] = ['title' => '', 'description' => ''];
+        $this->modules[] = ['title' => '', 'description' => '', 'lessons' => []];
     }
 
     public function removeModule($index)
     {
         unset($this->modules[$index]);
         $this->modules = array_values($this->modules);
+    }
+
+    public function addLesson($moduleIndex)
+    {
+        $this->modules[$moduleIndex]['lessons'][] = ['title' => ''];
+    }
+
+    public function removeLesson($moduleIndex, $lessonIndex)
+    {
+        unset($this->modules[$moduleIndex]['lessons'][$lessonIndex]);
+        $this->modules[$moduleIndex]['lessons'] = array_values($this->modules[$moduleIndex]['lessons']);
     }
 
     protected function rules(): array
@@ -98,6 +112,7 @@ class Form extends Component
             // así que no debe bloquear todo el curso.
             'modules.*.title' => 'nullable|string|max:255',
             'modules.*.description' => 'nullable|string',
+            'modules.*.lessons.*.title' => 'nullable|string|max:255',
             'moodle_url' => 'nullable|url|max:2048',
         ];
     }
@@ -128,18 +143,32 @@ class Form extends Component
                 $this->course = Course::create($data + ['created_by' => auth()->id()]);
         }
 
-        // Reemplaza los módulos existentes por los capturados en el formulario
+        // Reemplaza los módulos existentes por los capturados en el formulario.
+        // Las lecciones se borran aparte: la relación polimórfica no
+        // tiene llave foránea en cascada.
+        foreach ($this->course->modules as $existingModule) {
+            $existingModule->lessons()->delete();
+        }
         $this->course->modules()->delete();
         foreach ($this->modules as $index => $module) {
             if (trim($module['title'] ?? '') === '') {
                 continue;
             }
-            CourseModule::create([
+            $created = CourseModule::create([
                 'course_id' => $this->course->id,
                 'title' => $module['title'],
                 'description' => $module['description'] ?? '',
                 'order' => $index,
             ]);
+            foreach ($module['lessons'] ?? [] as $lessonIndex => $lesson) {
+                if (trim($lesson['title'] ?? '') === '') {
+                    continue;
+                }
+                $created->lessons()->create([
+                    'title' => $lesson['title'],
+                    'order' => $lessonIndex,
+                ]);
+            }
         }
 
         // Vínculo con Moodle.
