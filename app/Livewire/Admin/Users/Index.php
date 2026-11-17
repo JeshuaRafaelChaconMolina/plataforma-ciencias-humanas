@@ -39,6 +39,41 @@ class Index extends Component
         session()->flash('success', "Rol de {$user->name} actualizado a {$role}.");
     }
 
+    public function delete(int $userId): void
+    {
+        abort_unless(auth()->user()->can('eliminar_usuarios'), 403);
+
+        $user = User::findOrFail($userId);
+
+        // El admin no puede eliminarse a sí mismo.
+        if ($user->id === auth()->id()) {
+            session()->flash('error', 'No puedes eliminar tu propia cuenta.');
+            return;
+        }
+
+        // No se puede eliminar al último administrador del sistema.
+        if ($user->hasRole('administrador') && User::role('administrador')->count() <= 1) {
+            session()->flash('error', 'No puedes eliminar al último administrador del sistema.');
+            return;
+        }
+
+        // El contenido que el usuario creó (cursos, diplomados, talleres,
+        // libros, artículos, etc.) NO se borra: sus llaves created_by son
+        // nullOnDelete en la base de datos, así que solo quedan sin autor.
+        // Los registros de auditoría tampoco se borran (user_id nullOnDelete).
+        // Se limpian sus roles y permisos para no dejar filas huérfanas en
+        // las tablas de Spatie (model_has_roles / model_has_permissions).
+        // Su cuenta de Moodle, si se creó con el auto-registro, NO se borra
+        // aquí: hay que eliminarla aparte en Moodle si se desea.
+        $user->syncRoles([]);
+        $user->syncPermissions([]);
+        $user->delete();
+
+        $this->resetPage();
+
+        session()->flash('success', "Usuario {$user->name} eliminado correctamente.");
+    }
+
     public function render()
     {
         $users = User::query()

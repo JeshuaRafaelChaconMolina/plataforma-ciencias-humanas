@@ -56,6 +56,7 @@
                     <th class="px-5 py-3.5">Correo Electrónico</th>
                     <th class="px-5 py-3.5">Rol en el Sistema</th>
                     <th class="px-5 py-3.5">Estado</th>
+                    <th class="px-5 py-3.5 text-right">Acciones</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
@@ -100,10 +101,22 @@
                                 {{ ucfirst($user->status ?? 'Activo') }}
                             </span>
                         </td>
+
+                        <td class="px-5 py-4 text-right">
+                            @can('eliminar_usuarios')
+                                <button wire:click="delete({{ $user->id }})"
+                                        wire:confirm="¿Seguro que deseas eliminar al usuario {{ $user->name }}? Esta acción no se puede deshacer."
+                                        @disabled($user->id === auth()->id())
+                                        title="{{ $user->id === auth()->id() ? 'No puedes eliminar tu propia cuenta' : 'Eliminar usuario' }}"
+                                        class="inline-flex items-center gap-1 rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 transition disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed">
+                                    Eliminar
+                                </button>
+                            @endcan
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-5 py-12 text-center">
+                        <td colspan="5" class="px-5 py-12 text-center">
                             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-400 mb-3">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                     <circle cx="9" cy="8" r="3" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 20a5.5 5.5 0 0 1 11 0" />
