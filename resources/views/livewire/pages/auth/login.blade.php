@@ -102,14 +102,8 @@ new #[Layout('layouts.guest')] class extends Component
             </button>
         </div>
 
-        {{-- Registro abierto para alumnos --}}
-        @if (Route::has('register'))
-            <p class="pt-2 text-center text-sm text-slate-600">
-                ¿No tienes cuenta?
-                <a class="font-semibold text-primary-700 hover:text-primary-800 hover:underline" href="{{ route('register') }}" wire:navigate>
-                    Crear cuenta
-                </a>
-            </p>
-        @endif
+        {{-- Modelo educa-t: sin registro público de alumnos. El login es
+             solo para admin/docente (acceso directo en /login); los alumnos
+             entran al aula por Moodle. --}}
     </form>
 </div>

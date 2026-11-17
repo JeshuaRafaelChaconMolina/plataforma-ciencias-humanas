@@ -274,18 +274,34 @@
                 </div>
 
                 <div class="lg:col-span-4 flex lg:justify-end">
+                    {{-- Modelo educa-t: el botón principal lleva al aula
+                         virtual de Moodle ("Ingresar al sitio"). El login de
+                         Laravel queda escondido en /login, solo para admin y
+                         docente; "Mi panel" solo se muestra a ellos. --}}
                     @auth
-                        <a href="{{ route('dashboard.index') }}"
-                           class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
-                            <span>Ingresar a mi panel</span>
-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                            </svg>
-                        </a>
+                        @if(auth()->user()->isAdmin() || auth()->user()->isDocente())
+                            <a href="{{ route('dashboard.index') }}"
+                               class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
+                                <span>Ingresar a mi panel</span>
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                </svg>
+                            </a>
+                        @else
+                            <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
+                               target="_blank" rel="noopener"
+                               class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
+                                <span>Ingresar al aula virtual</span>
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                </svg>
+                            </a>
+                        @endif
                     @else
-                        <a href="{{ route('login') }}"
+                        <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
+                           target="_blank" rel="noopener"
                            class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
-                            <span>Iniciar sesión institucional</span>
+                            <span>Ingresar al aula virtual</span>
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                             </svg>

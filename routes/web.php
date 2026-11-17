@@ -83,12 +83,11 @@ Route::middleware(['auth'])->prefix('panel')->name('dashboard.')->group(function
             return view('livewire.dashboard.docente');
         }
 
-        // Alumno (rol por defecto): catalogo de oferta educativa publicada
-        $cursos = \App\Models\Course::published()->latest()->take(6)->get();
-        $diplomados = \App\Models\Diploma::published()->latest()->take(6)->get();
-        $talleres = \App\Models\Workshop::published()->latest()->take(6)->get();
-
-        return view('livewire.dashboard.alumno', compact('cursos', 'diplomados', 'talleres'));
+        // Alumno: ya no hay panel de alumno en Laravel (modelo educa-t).
+        // El catálogo es público y el aula está en Moodle, así que un
+        // alumno que entre a /panel (o que inicie sesión en /login) va
+        // directo al aula virtual de Moodle. No se borran usuarios ni datos.
+        return redirect()->away(config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com');
     })->name('index');
 });
 

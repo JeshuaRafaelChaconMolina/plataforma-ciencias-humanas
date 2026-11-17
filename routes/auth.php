@@ -4,10 +4,12 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
+// Modelo educa-t: la página pública es solo un catálogo, sin registro
+// de alumnos. NO hay ruta de registro público: /register devuelve 404.
+// Las cuentas de admin/docente se crean por seeder o directo en base de
+// datos; el admin NO crea usuarios desde el panel (solo los lista, cambia
+// su rol o los elimina). Los alumnos entran al aula por Moodle.
 Route::middleware('guest')->group(function () {
-    Volt::route('register', 'pages.auth.register')
-        ->name('register');
-
     Volt::route('login', 'pages.auth.login')
         ->name('login');
 

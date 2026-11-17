@@ -1,0 +1,314 @@
+diff --git a/resources/views/components/layouts/public.blade.php b/resources/views/components/layouts/public.blade.php
+index 00e2d34..7b2da4c 100644
+--- a/resources/views/components/layouts/public.blade.php
++++ b/resources/views/components/layouts/public.blade.php
+@@ -40,12 +40,12 @@
+                     Biblioteca Virtual
+                 </a>
+ 
+-                <a href="{{ route('websites.index') }}"
+-                   @class([
+-                       'px-3.5 py-2 rounded-lg flex items-center gap-2 transition duration-150',
+-                       'bg-primary-50 text-primary-700 font-semibold shadow-xs border-b-2 border-accent-500' => request()->routeIs('websites.*'),
+-                       'hover:bg-slate-100/80 hover:text-primary-700' => !request()->routeIs('websites.*')
+-                   ])>
++                {{-- "Sitios Web" mantiene su nombre, pero ya no lleva a la lista
++                     de sitios web: lleva directo al aula virtual de Moodle,
++                     como el "Ingresar al sitio" de educa-t UNACH. --}}
++                <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
++                   target="_blank" rel="noopener"
++                   class="px-3.5 py-2 rounded-lg flex items-center gap-2 transition duration-150 hover:bg-slate-100/80 hover:text-primary-700">
+                     <svg class="h-4 w-4 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                         <circle cx="12" cy="12" r="8.5" /><path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15.5 0 17M12 3.5c-2.5 2.5-2.5 15.5 0 17" />
+                     </svg>
+@@ -96,6 +96,7 @@
+             {{-- Acceso a cuenta / Panel --}}
+             <div class="flex items-center gap-3">
+                 @auth
++                    @if(auth()->user()->isAdmin() || auth()->user()->isDocente())
+                     <a href="{{ route('dashboard.index') }}"
+                        class="inline-flex items-center gap-2 rounded-xl bg-primary-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+@@ -103,14 +104,7 @@ class="inline-flex items-center gap-2 rounded-xl bg-primary-700 px-4 py-2 text-s
+                         </svg>
+                         <span>Mi panel</span>
+                     </a>
+-                @else
+-                    <a href="{{ route('login') }}"
+-                       class="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-primary-800 shadow-2xs transition hover:border-primary-400 hover:bg-primary-50/50">
+-                        <svg class="h-4 w-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+-                        </svg>
+-                        <span>Iniciar sesión</span>
+-                    </a>
++                    @endif
+                 @endauth
+ 
+                 {{-- Botón Móvil --}}
+@@ -144,7 +138,8 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                     <svg class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" /></svg>
+                     Biblioteca Virtual
+                 </a>
+-                <a href="{{ route('websites.index') }}"
++                <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
++                   target="_blank" rel="noopener"
+                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-slate-700">
+                     <svg class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" /><path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15.5 0 17M12 3.5c-2.5 2.5-2.5 15.5 0 17" /></svg>
+                     Sitios Web
+@@ -225,7 +220,7 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                             <a href="{{ route('library.index') }}?tipo=revistas" class="transition hover:text-white hover:underline">Revistas científicas</a>
+                         </li>
+                         <li>
+-                            <a href="{{ route('websites.index') }}" class="transition hover:text-white hover:underline">Sitios web recomendados</a>
++                            <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}" target="_blank" rel="noopener" class="transition hover:text-white hover:underline">Sitios web recomendados</a>
+                         </li>
+                     </ul>
+                 </div>
+@@ -235,16 +230,14 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                     <h3 class="text-xs font-bold uppercase tracking-wider text-accent-400">Comunidad & Legal</h3>
+                     <ul class="mt-4 space-y-2.5 text-sm">
+                         @auth
+-                            <li>
+-                                <a href="{{ route('dashboard.index') }}" class="text-white font-medium hover:underline flex items-center gap-1.5">
+-                                    <span>Ir a mi panel</span>
+-                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+-                                </a>
+-                            </li>
+-                        @else
+-                            <li>
+-                                <a href="{{ route('login') }}" class="transition hover:text-white hover:underline">Acceso a docentes y alumnos</a>
+-                            </li>
++                            @if(auth()->user()->isAdmin() || auth()->user()->isDocente())
++                                <li>
++                                    <a href="{{ route('dashboard.index') }}" class="text-white font-medium hover:underline flex items-center gap-1.5">
++                                        <span>Ir a mi panel</span>
++                                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
++                                    </a>
++                                </li>
++                            @endif
+                         @endauth
+                         <li>
+                             <a href="{{ route('privacy.index') }}" class="transition hover:text-white hover:underline">Aviso de Privacidad</a>
+diff --git a/resources/views/layouts/public.blade.php b/resources/views/layouts/public.blade.php
+index 2a3d45a..c452bb6 100644
+--- a/resources/views/layouts/public.blade.php
++++ b/resources/views/layouts/public.blade.php
+@@ -40,12 +40,12 @@
+                     Biblioteca Virtual
+                 </a>
+ 
+-                <a href="{{ route('websites.index') }}"
+-                   @class([
+-                       'px-3.5 py-2 rounded-lg flex items-center gap-2 transition duration-150',
+-                       'bg-primary-50 text-primary-700 font-semibold shadow-xs border-b-2 border-accent-500' => request()->routeIs('websites.*'),
+-                       'hover:bg-slate-100/80 hover:text-primary-700' => !request()->routeIs('websites.*')
+-                   ])>
++                {{-- "Sitios Web" mantiene su nombre, pero ya no lleva a la lista
++                     de sitios web: lleva directo al aula virtual de Moodle,
++                     como el "Ingresar al sitio" de educa-t UNACH. --}}
++                <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
++                   target="_blank" rel="noopener"
++                   class="px-3.5 py-2 rounded-lg flex items-center gap-2 transition duration-150 hover:bg-slate-100/80 hover:text-primary-700">
+                     <svg class="h-4 w-4 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                         <circle cx="12" cy="12" r="8.5" /><path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15.5 0 17M12 3.5c-2.5 2.5-2.5 15.5 0 17" />
+                     </svg>
+@@ -96,6 +96,7 @@
+             {{-- Acceso a cuenta / Panel --}}
+             <div class="flex items-center gap-3">
+                 @auth
++                    @if(auth()->user()->isAdmin() || auth()->user()->isDocente())
+                     <a href="{{ route('dashboard.index') }}"
+                        class="inline-flex items-center gap-2 rounded-xl bg-primary-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+@@ -103,14 +104,7 @@ class="inline-flex items-center gap-2 rounded-xl bg-primary-700 px-4 py-2 text-s
+                         </svg>
+                         <span>Mi panel</span>
+                     </a>
+-                @else
+-                    <a href="{{ route('login') }}"
+-                       class="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-primary-800 shadow-2xs transition hover:border-primary-400 hover:bg-primary-50/50">
+-                        <svg class="h-4 w-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+-                        </svg>
+-                        <span>Iniciar sesión</span>
+-                    </a>
++                    @endif
+                 @endauth
+ 
+                 {{-- Botón Móvil --}}
+@@ -144,7 +138,8 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                     <svg class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" /></svg>
+                     Biblioteca Virtual
+                 </a>
+-                <a href="{{ route('websites.index') }}"
++                <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
++                   target="_blank" rel="noopener"
+                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-slate-700">
+                     <svg class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" /><path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15.5 0 17M12 3.5c-2.5 2.5-2.5 15.5 0 17" /></svg>
+                     Sitios Web
+@@ -225,7 +220,7 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                             <a href="{{ route('library.index') }}?tipo=revistas" class="transition hover:text-white hover:underline">Revistas científicas</a>
+                         </li>
+                         <li>
+-                            <a href="{{ route('websites.index') }}" class="transition hover:text-white hover:underline">Sitios web recomendados</a>
++                            <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}" target="_blank" rel="noopener" class="transition hover:text-white hover:underline">Sitios web recomendados</a>
+                         </li>
+                     </ul>
+                 </div>
+@@ -235,16 +230,14 @@ class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-sla
+                     <h3 class="text-xs font-bold uppercase tracking-wider text-accent-400">Comunidad & Legal</h3>
+                     <ul class="mt-4 space-y-2.5 text-sm">
+                         @auth
+-                            <li>
+-                                <a href="{{ route('dashboard.index') }}" class="text-white font-medium hover:underline flex items-center gap-1.5">
+-                                    <span>Ir a mi panel</span>
+-                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+-                                </a>
+-                            </li>
+-                        @else
+-                            <li>
+-                                <a href="{{ route('login') }}" class="transition hover:text-white hover:underline">Acceso a docentes y alumnos</a>
+-                            </li>
++                            @if(auth()->user()->isAdmin() || auth()->user()->isDocente())
++                                <li>
++                                    <a href="{{ route('dashboard.index') }}" class="text-white font-medium hover:underline flex items-center gap-1.5">
++                                        <span>Ir a mi panel</span>
++                                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
++                                    </a>
++                                </li>
++                            @endif
+                         @endauth
+                         <li>
+                             <a href="{{ route('privacy.index') }}" class="transition hover:text-white hover:underline">Aviso de Privacidad</a>
+diff --git a/resources/views/livewire/pages/auth/login.blade.php b/resources/views/livewire/pages/auth/login.blade.php
+index 2729c45..216d091 100644
+--- a/resources/views/livewire/pages/auth/login.blade.php
++++ b/resources/views/livewire/pages/auth/login.blade.php
+@@ -102,14 +102,8 @@ class="flex w-full items-center justify-center gap-2.5 rounded-xl bg-primary-700
+             </button>
+         </div>
+ 
+-        {{-- Registro abierto para alumnos --}}
+-        @if (Route::has('register'))
+-            <p class="pt-2 text-center text-sm text-slate-600">
+-                ¿No tienes cuenta?
+-                <a class="font-semibold text-primary-700 hover:text-primary-800 hover:underline" href="{{ route('register') }}" wire:navigate>
+-                    Crear cuenta
+-                </a>
+-            </p>
+-        @endif
++        {{-- Modelo educa-t: sin registro público de alumnos. El login es
++             solo para admin/docente (acceso directo en /login); los alumnos
++             entran al aula por Moodle. --}}
+     </form>
+ </div>
+\ No newline at end of file
+diff --git a/resources/views/livewire/welcome/navigation.blade.php b/resources/views/livewire/welcome/navigation.blade.php
+index 7d079de..eb4d7a0 100644
+--- a/resources/views/livewire/welcome/navigation.blade.php
++++ b/resources/views/livewire/welcome/navigation.blade.php
+@@ -13,14 +13,5 @@ class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:
+         >
+             Log in
+         </a>
+-
+-        @if (Route::has('register'))
+-            <a
+-                href="{{ route('register') }}"
+-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+-            >
+-                Register
+-            </a>
+-        @endif
+     @endauth
+ </nav>
+diff --git a/resources/views/public/home.blade.php b/resources/views/public/home.blade.php
+index 2550992..7b5d9dd 100644
+--- a/resources/views/public/home.blade.php
++++ b/resources/views/public/home.blade.php
+@@ -274,18 +274,34 @@ class="inline-flex items-center gap-1.5 text-sm font-bold text-primary-700 hover
+                 </div>
+ 
+                 <div class="lg:col-span-4 flex lg:justify-end">
++                    {{-- Modelo educa-t: el botón principal lleva al aula
++                         virtual de Moodle ("Ingresar al sitio"). El login de
++                         Laravel queda escondido en /login, solo para admin y
++                         docente; "Mi panel" solo se muestra a ellos. --}}
+                     @auth
+-                        <a href="{{ route('dashboard.index') }}"
+-                           class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
+-                            <span>Ingresar a mi panel</span>
+-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+-                            </svg>
+-                        </a>
++                        @if(auth()->user()->isAdmin() || auth()->user()->isDocente())
++                            <a href="{{ route('dashboard.index') }}"
++                               class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
++                                <span>Ingresar a mi panel</span>
++                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
++                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
++                                </svg>
++                            </a>
++                        @else
++                            <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
++                               target="_blank" rel="noopener"
++                               class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
++                                <span>Ingresar al aula virtual</span>
++                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
++                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
++                                </svg>
++                            </a>
++                        @endif
+                     @else
+-                        <a href="{{ route('login') }}"
++                        <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
++                           target="_blank" rel="noopener"
+                            class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
+-                            <span>Iniciar sesión institucional</span>
++                            <span>Ingresar al aula virtual</span>
+                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                             </svg>
+diff --git a/routes/auth.php b/routes/auth.php
+index 131252e..bce1ffa 100644
+--- a/routes/auth.php
++++ b/routes/auth.php
+@@ -4,10 +4,12 @@
+ use Illuminate\Support\Facades\Route;
+ use Livewire\Volt\Volt;
+ 
++// Modelo educa-t: la página pública es solo un catálogo, sin registro
++// de alumnos. NO hay ruta de registro público: /register devuelve 404.
++// Las cuentas de admin/docente se crean por seeder o directo en base de
++// datos; el admin NO crea usuarios desde el panel (solo los lista, cambia
++// su rol o los elimina). Los alumnos entran al aula por Moodle.
+ Route::middleware('guest')->group(function () {
+-    Volt::route('register', 'pages.auth.register')
+-        ->name('register');
+-
+     Volt::route('login', 'pages.auth.login')
+         ->name('login');
+ 
+diff --git a/routes/web.php b/routes/web.php
+index 55bfefd..fe471f3 100644
+--- a/routes/web.php
++++ b/routes/web.php
+@@ -83,12 +83,11 @@
+             return view('livewire.dashboard.docente');
+         }
+ 
+-        // Alumno (rol por defecto): catalogo de oferta educativa publicada
+-        $cursos = \App\Models\Course::published()->latest()->take(6)->get();
+-        $diplomados = \App\Models\Diploma::published()->latest()->take(6)->get();
+-        $talleres = \App\Models\Workshop::published()->latest()->take(6)->get();
+-
+-        return view('livewire.dashboard.alumno', compact('cursos', 'diplomados', 'talleres'));
++        // Alumno: ya no hay panel de alumno en Laravel (modelo educa-t).
++        // El catálogo es público y el aula está en Moodle, así que un
++        // alumno que entre a /panel (o que inicie sesión en /login) va
++        // directo al aula virtual de Moodle. No se borran usuarios ni datos.
++        return redirect()->away(config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com');
+     })->name('index');
+ });
+ 
