@@ -35,7 +35,18 @@ new #[Layout('layouts.guest')] class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            // Misma política que Moodle: mínimo 8 caracteres, una
+            // mayúscula, una minúscula, un número y un símbolo. Si no se
+            // exige aquí, el registro en Laravel pasa pero Moodle rechaza
+            // la contraseña ("Invalid parameter value detected") y la
+            // cuenta del aula queda pendiente sin que el alumno entienda por qué.
+            'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)->mixedCase()->numbers()->symbols()],
+        ], [
+            'password.min' => 'La contraseña debe tener mínimo 8 caracteres.',
+            'password.mixed' => 'La contraseña debe tener al menos una letra mayúscula y una minúscula.',
+            'password.numbers' => 'La contraseña debe tener al menos un número.',
+            'password.symbols' => 'La contraseña debe tener al menos un símbolo (por ejemplo !, @, # o $).',
+            'password.confirmed' => 'La confirmación de la contraseña no coincide.',
         ]);
 
         RateLimiter::hit($key, 3600);
@@ -65,9 +76,26 @@ new #[Layout('layouts.guest')] class extends Component
 
             session()->flash('moodle_notice', 'Tu cuenta del aula (Moodle) también quedó creada. Entra a aula.impulsovirtualmx.com con tu usuario "'.$moodle['username'].'" y la misma contraseña de esta cuenta.');
         } else {
-            Log::warning('No se pudo crear la cuenta de Moodle al registrarse.', ['email' => $validated['email'], 'error' => $moodle['error']]);
+            // Se registra también el debuginfo de Moodle cuando viene, para
+            // diagnosticar futuros fallos. Nunca se registra la contraseña.
+            $logContext = ['email' => $validated['email'], 'error' => $moodle['error']];
 
-            session()->flash('moodle_warning', 'Tu cuenta del portal quedó creada, pero no se pudo crear tu cuenta del aula (Moodle) automáticamente: '.$moodle['error'].' Pide al administrador que te cree la cuenta en Moodle.');
+            if (! empty($moodle['debuginfo'])) {
+                $logContext['moodle_debuginfo'] = $moodle['debuginfo'];
+            }
+
+            Log::warning('No se pudo crear la cuenta de Moodle al registrarse.', $logContext);
+
+            // Si Moodle rechazó los datos, lo más probable es la contraseña:
+            // decirlo claro, en vez de dejar solo el error genérico de Moodle.
+            if (stripos($moodle['error'], 'Invalid parameter') !== false
+                || stripos($moodle['error'], 'password') !== false
+                || stripos($moodle['error'], 'contraseña') !== false
+            ) {
+                session()->flash('moodle_warning', 'Tu cuenta del portal quedó creada, pero tu contraseña no fue aceptada por el aula (Moodle): debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un símbolo. Pide al administrador que te cree la cuenta en Moodle con una contraseña que cumpla esos requisitos.');
+            } else {
+                session()->flash('moodle_warning', 'Tu cuenta del portal quedó creada, pero no se pudo crear tu cuenta del aula (Moodle) automáticamente: '.$moodle['error'].' Pide al administrador que te cree la cuenta en Moodle.');
+            }
         }
 
         event(new Registered($user));
@@ -104,6 +132,7 @@ new #[Layout('layouts.guest')] class extends Component
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
+            <p class="mt-2 text-xs text-slate-500">Tu contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un símbolo, para que también funcione en el aula de Moodle.</p>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 

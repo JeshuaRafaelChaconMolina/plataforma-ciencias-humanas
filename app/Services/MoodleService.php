@@ -178,7 +178,7 @@ class MoodleService
      * el usuario existente para enlazarlo. Si el nombre de usuario ya
      * existe, reintenta con _2, _3... hasta 5 veces.
      *
-     * @return array{ok: bool, id?: int, username?: string, already_existed?: bool, error?: string}
+     * @return array{ok: bool, id?: int, username?: string, already_existed?: bool, error?: string, debuginfo?: string}
      */
     public function createUser(string $name, string $email, string $plainPassword): array
     {
@@ -243,7 +243,9 @@ class MoodleService
                     continue;
                 }
 
-                return ['ok' => false, 'error' => 'Moodle: '.$message];
+                // Se devuelve también el debuginfo de Moodle cuando viene,
+                // para diagnosticar el fallo en el log. Nunca lleva la contraseña.
+                return ['ok' => false, 'error' => 'Moodle: '.$message, 'debuginfo' => isset($data['debuginfo']) ? (string) $data['debuginfo'] : null];
             }
 
             $created = is_array($data) ? ($data[0] ?? null) : null;
