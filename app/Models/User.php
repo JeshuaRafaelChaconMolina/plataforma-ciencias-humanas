@@ -18,6 +18,8 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
+        'moodle_username',
+        'moodle_user_id',
     ];
 
     protected $hidden = [

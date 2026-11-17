@@ -30,6 +30,26 @@
             </div>
         </div>
 
+        {{-- Aviso del registro: cuenta de Moodle creada o pendiente --}}
+        @if(session('moodle_notice'))
+            <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+                {{ session('moodle_notice') }}
+            </div>
+        @endif
+
+        @if(session('moodle_warning'))
+            <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                {{ session('moodle_warning') }}
+            </div>
+        @endif
+
+        @if(auth()->user()->moodle_username)
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+                Tu usuario del aula (Moodle) es <strong>{{ auth()->user()->moodle_username }}</strong>.
+                Entra a <strong>aula.impulsovirtualmx.com</strong> con ese usuario y la misma contraseña con la que te registraste aquí.
+            </div>
+        @endif
+
         {{-- Cursos disponibles --}}
         <div>
             <div class="flex items-center justify-between pb-4 border-b border-slate-200">

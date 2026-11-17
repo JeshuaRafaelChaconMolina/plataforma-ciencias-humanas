@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\User;
+use App\Services\MoodleService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules;
@@ -38,10 +40,35 @@ new #[Layout('layouts.guest')] class extends Component
 
         RateLimiter::hit($key, 3600);
 
-        $validated['password'] = Hash::make($validated['password']);
+        // La contraseña en texto plano solo existe en este momento, antes
+        // de hashearla. Se usa solo para crear la cuenta en Moodle con la
+        // misma contraseña y luego se descarta: no se guarda, no se
+        // registra en logs y no se devuelve en ninguna respuesta.
+        $plainPassword = $validated['password'];
+
+        $validated['password'] = Hash::make($plainPassword);
 
         $user = User::create($validated);
         $user->assignRole('alumno');
+
+        // Crear la cuenta en Moodle automáticamente. Si Moodle falla, el
+        // registro de Laravel NO falla: el usuario queda creado igual y
+        // solo se le avisa que su cuenta del aula quedó pendiente.
+        $moodle = app(MoodleService::class)->createUser($validated['name'], $validated['email'], $plainPassword);
+        unset($plainPassword);
+
+        if ($moodle['ok']) {
+            $user->update([
+                'moodle_user_id' => $moodle['id'],
+                'moodle_username' => $moodle['username'],
+            ]);
+
+            session()->flash('moodle_notice', 'Tu cuenta del aula (Moodle) también quedó creada. Entra a aula.impulsovirtualmx.com con tu usuario "'.$moodle['username'].'" y la misma contraseña de esta cuenta.');
+        } else {
+            Log::warning('No se pudo crear la cuenta de Moodle al registrarse.', ['email' => $validated['email'], 'error' => $moodle['error']]);
+
+            session()->flash('moodle_warning', 'Tu cuenta del portal quedó creada, pero no se pudo crear tu cuenta del aula (Moodle) automáticamente: '.$moodle['error'].' Pide al administrador que te cree la cuenta en Moodle.');
+        }
 
         event(new Registered($user));
 
