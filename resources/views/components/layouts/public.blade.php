@@ -43,7 +43,7 @@
                 {{-- "Sitios Web" mantiene su nombre, pero ya no lleva a la lista
                      de sitios web: lleva directo al aula virtual de Moodle,
                      como el "Ingresar al sitio" de educa-t UNACH. --}}
-                <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
+                <a href="{{ (config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com') . '/login/index.php' }}"
                    target="_blank" rel="noopener"
                    class="px-3.5 py-2 rounded-lg flex items-center gap-2 transition duration-150 hover:bg-slate-100/80 hover:text-primary-700">
                     <svg class="h-4 w-4 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -138,7 +138,7 @@
                     <svg class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" /></svg>
                     Biblioteca Virtual
                 </a>
-                <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
+                <a href="{{ (config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com') . '/login/index.php' }}"
                    target="_blank" rel="noopener"
                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50 text-slate-700">
                     <svg class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5" /><path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15.5 0 17M12 3.5c-2.5 2.5-2.5 15.5 0 17" /></svg>
@@ -220,7 +220,7 @@
                             <a href="{{ route('library.index') }}?tipo=revistas" class="transition hover:text-white hover:underline">Revistas científicas</a>
                         </li>
                         <li>
-                            <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}" target="_blank" rel="noopener" class="transition hover:text-white hover:underline">Sitios web recomendados</a>
+                            <a href="{{ (config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com') . '/login/index.php' }}" target="_blank" rel="noopener" class="transition hover:text-white hover:underline">Sitios web recomendados</a>
                         </li>
                     </ul>
                 </div>

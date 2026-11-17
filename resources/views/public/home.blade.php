@@ -288,7 +288,7 @@
                                 </svg>
                             </a>
                         @else
-                            <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
+                            <a href="{{ (config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com') . '/login/index.php' }}"
                                target="_blank" rel="noopener"
                                class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
                                 <span>Ingresar al aula virtual</span>
@@ -298,7 +298,7 @@
                             </a>
                         @endif
                     @else
-                        <a href="{{ config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com' }}"
+                        <a href="{{ (config('moodle.base_url') ?: 'https://aula.impulsovirtualmx.com') . '/login/index.php' }}"
                            target="_blank" rel="noopener"
                            class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 text-sm font-bold text-primary-950 shadow-md transition hover:bg-accent-400 hover:shadow-lg">
                             <span>Ingresar al aula virtual</span>
